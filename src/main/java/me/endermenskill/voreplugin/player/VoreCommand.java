@@ -1,6 +1,5 @@
 package me.endermenskill.voreplugin.player;
 
-import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.StatTypes;
 import me.endermenskill.voreplugin.stats.VoreStats;
@@ -176,7 +175,7 @@ public class VoreCommand implements CommandExecutor {
             return true;
         }
 
-        if (VoreManager.getBellies(p).size() >= Settings.maxBellies) {
+        if (VoreManager.getBellies(p).size() >= 64) {
             p.sendMessage("§8[§b§lVorePlugin§8] §cYou can only have up to 64 bellies set at once.");
             return true;
         }

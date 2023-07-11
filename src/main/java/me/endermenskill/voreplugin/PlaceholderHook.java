@@ -3,6 +3,7 @@ package me.endermenskill.voreplugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
+import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,7 @@ class PlaceholderHook extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "VorePlugin";
+        return "vore";
     }
 
     @Override
@@ -48,6 +49,8 @@ class PlaceholderHook extends PlaceholderExpansion {
         List<String> placeholders = new ArrayList<>();
 
         placeholders.add("rank");
+        placeholders.add("pred");
+        placeholders.add("prey");
 
         return placeholders;
     }
@@ -58,20 +61,43 @@ class PlaceholderHook extends PlaceholderExpansion {
             return "";
         }
 
-        if (params.equalsIgnoreCase("rank")) {
-            PlayerRank rank = PlayerUtil.getPlayerRank(player);
-            switch (rank) {
-                case SWITCH -> {
-                    return "§6[§1SWITCH§6]§r";
-                }
-                case PREDATOR -> {
-                    return "§6[§cPRED§6]§r";
-                }
-                case PREY -> {
-                    return "§6[§aPREY§6]§r";
-                }
+        return switch (params) {
+            case "rank" -> rankRequest(player);
+            case "pred" -> predRequest(player);
+            case "prey" -> preyRequest(player);
+            default -> null;
+        };
+    }
+
+    private String rankRequest(Player player) {
+        PlayerRank rank = PlayerUtil.getPlayerRank(player);
+        switch (rank) {
+            case SWITCH -> {
+                return "§6[§1SWITCH§6]§r";
+            }
+            case PREDATOR -> {
+                return "§6[§cPRED§6]§r";
+            }
+            case PREY -> {
+                return "§6[§aPREY§6]§r";
             }
         }
         return null;
+    }
+
+    private String predRequest(Player player) {
+        Player pred = VoreManager.getPredator(player);
+        if (pred != null) {
+            return pred.getDisplayName();
+        }
+        return "nobody";
+    }
+
+    private String preyRequest(Player player) {
+        ArrayList<Player> prey = VoreManager.getPrey(player);
+        if (!prey.isEmpty()) {
+            return prey.toString();
+        }
+        return "nobody";
     }
 }

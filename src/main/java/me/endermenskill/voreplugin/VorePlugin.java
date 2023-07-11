@@ -81,6 +81,9 @@ public class VorePlugin extends JavaPlugin {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceholderHook(this).register();
         }
+        else {
+            Bukkit.getLogger().warning("[VorePlugin] PlaceholderAPI is missing, certain features will not work correctly.");
+        }
     }
 
     /**

@@ -1,6 +1,5 @@
 package me.endermenskill.voreplugin.belly;
 
-import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
@@ -11,7 +10,6 @@ import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -1,6 +1,5 @@
 package me.endermenskill.voreplugin.player;
 
-import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

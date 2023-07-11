@@ -4,34 +4,4 @@
 
 #---------- General Configs ----------
 
-#belllyMax: integer
-#defines the maximal amount of bellies a player can have
-#cannot be null and is hard capped at 49
-#default = 4
-bellyMax: 4
-
-#customMesages: boolean
-#Enable/Disable the custom join and leave messages
-#default = true
-customMessages: true
-
-#customJoinMessage: String
-#Set a custom join message to be used, requires customMessages to be true
-#<player> gets replaced with player's display name
-customJoinMessage: §e<player> has joined the game
-
-#customLeaveMessage: String
-#Set a custom leave message to be used, requires customMessages to be true
-#<player> gets replaced with player's display name
-customLeaveMessage: §e<player> has left the game
-
-#voreTypes : Array<String>
-#A list of vore types that can be associated with bellies and preferences
-#Note: Removing/editing entries that are in use will break bellies that use it!
-voreTypes:
-  - oral
-  - anal
-  - cock
-  - unbirth
-  - breast
-  - tail
+#Nothing here yet, gotta yell at me for a config update. :P
