@@ -1,0 +1,38 @@
+name: VorePlugin
+version: 2.0.0-DEV
+main: me.endermenskill.voreplugin.VorePlugin
+api-version: 1.19
+authors: [ Endermenskill ]
+softdepend: [PlaceholderAPI]
+description: Rewrite of adamholder01's voreplugin for VelocityGaming5 on fiverr.
+commands:
+  setbelly:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <name> <type>"
+    description: Sets the given belly to the player's location.
+  setrank:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <PlayerRank>"
+    description: Sets the player's rank.
+  digest:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <name>"
+    description: Digests the given player or all players you have swallowed.
+  release:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <name>"
+    description: Releases the given player or all players you have swallowed.
+  belly:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <belly> <path> <value>"
+    description: Allows you to edit various paramaters of your belly.
+  preference:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <add|remove> <voreType>"
+    description: Set a blacklist of vore types you don't want to participate in.
+  vorestats:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <name>"
+    description: View vore related statistics.
+  voretop:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <category>"
+    description: View the vore stats leaderboards.
+  vore:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <branch> <arguments>"
+    description: Command to set bellies, set and vore types vore ranks, set and view preference settings set and view stats and leaderboards.
+  test:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command>"
+    description: Super secret testing command so don't tell anyone!
