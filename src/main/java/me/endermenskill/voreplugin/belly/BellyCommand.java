@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.belly;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
@@ -28,20 +29,20 @@ public class BellyCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return false;
         }
 
         Player p = (Player)sender;
 
         if (VoreManager.getPrey(p).size() > 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cCannot edit bellies while they are filled.");
+            p.sendMessage(Settings.msgPrefix + " §cCannot edit bellies while they are filled.");
             return true;
         }
 
         if (args.length < 1 || args[0] == null) {
             String bellies = getBellies(p).toString();
-            p.sendMessage("§8[§b§lVorePlugin§8] §cYou did not specify wich belly to edit. Available bellies are " + bellies);
+            p.sendMessage(Settings.msgPrefix + " §cYou did not specify wich belly to edit. Available bellies are " + bellies);
             return true;
         }
 
@@ -118,7 +119,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setMessage(Player p, Belly belly, String message) {
         belly.setSwallowMessage(message);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's swallow message to \"" + belly.swallowMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's swallow message to \"" + belly.swallowMessage + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -132,7 +133,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setDigestMessage(Player p, Belly belly, String message) {
         belly.setDigestMessage(message);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's digest message to \"" + belly.digestMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's digest message to \"" + belly.digestMessage + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -146,7 +147,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setDigestInitMessage(Player p, Belly belly, String message) {
         belly.setDigestInitMessage(message);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's digestion start message to \"" + belly.digestInitMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's digestion start message to \"" + belly.digestInitMessage + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -160,7 +161,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setReleaseMessage(Player p, Belly belly, String message) {
         belly.setReleaseMessage(message);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's release message to \"" + belly.releaseMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's release message to \"" + belly.releaseMessage + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -178,10 +179,10 @@ public class BellyCommand implements CommandExecutor {
             belly.setType(voreType);
         }
         catch (IllegalArgumentException e) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §c\"" + type + "\" is not a valid vore type. Available types are " + Arrays.asList(VoreType.values()));
+            p.sendMessage(Settings.msgPrefix + " §c\"" + type + "\" is not a valid vore type. Available types are " + Arrays.asList(VoreType.values()));
             return true;
         }
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's type to \"" + belly.type + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's type to \"" + belly.type + "\".");
 
         VoreManager.reloadPlayerBellies(p);
         return true;
@@ -196,12 +197,12 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setAcidStrength(Player p, Belly belly, int strength) {
         if (strength <= 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cCannot have acid strength below 1.");
+            p.sendMessage(Settings.msgPrefix + " §cCannot have acid strength below 1.");
             return true;
         }
 
         belly.setAcidStrength(strength);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's acid strength to \"" + belly.acidStrength + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's acid strength to \"" + belly.acidStrength + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -217,12 +218,12 @@ public class BellyCommand implements CommandExecutor {
         PotionEffectType effect = PotionEffectType.getByName(type.toUpperCase());
 
         if (effect == null) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §c\"" + type + "\" is not a valid effect.");
+            p.sendMessage(Settings.msgPrefix + " §c\"" + type + "\" is not a valid effect.");
             return true;
         }
 
         belly.setBellyEffect(effect.getName());
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set \"" + belly.name + "\" 's ambient effect to \"" + belly.bellyEffect + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's ambient effect to \"" + belly.bellyEffect + "\".");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -235,13 +236,13 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean deleteBelly(Player p, Belly belly) {
         if (belly == null) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cCould not find selected belly.");
+            p.sendMessage(Settings.msgPrefix + " §cCould not find selected belly.");
             return true;
         }
 
-        p.sendMessage("§8[§b§lVorePlugin§8] §eDeleting belly \"" + belly.name + "\"...");
+        p.sendMessage(Settings.msgPrefix + " §eDeleting belly \"" + belly.name + "\"...");
         VoreManager.deleteBelly(belly);
-        p.sendMessage("§8[§b§lVorePlugin§8] §aDeleted belly \"" + belly.name + "\"");
+        p.sendMessage(Settings.msgPrefix + " §aDeleted belly \"" + belly.name + "\"");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }

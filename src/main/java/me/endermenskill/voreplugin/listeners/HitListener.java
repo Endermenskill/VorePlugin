@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.listeners;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.gui.BellySelectGui;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.entity.Player;
@@ -44,7 +45,7 @@ public class HitListener implements Listener {
             PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 300, 99999, false, false, false);
             prey.addPotionEffect(slow);
         } catch (NullPointerException exception) {
-            predator.sendMessage("§8[§b§lVorePlugin§8] §c" + exception.getMessage());
+            predator.sendMessage(Settings.msgPrefix + " §c" + exception.getMessage());
 
             return;
         }

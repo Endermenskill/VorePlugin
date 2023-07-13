@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.stats;
 
+import me.endermenskill.voreplugin.Settings;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -28,20 +29,20 @@ public class VoreStatsCommand implements CommandExecutor {
         }
 
         assert p != null;
-        p.sendMessage("§8[§b§lVorePlugin§8] §6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
-        p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten: §2" + VoreStats.getTimesEaten(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §eTimes digested: §2" + VoreStats.getTimesDigested(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten: §2" + VoreStats.getPreyEaten(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §ePrey digested: §2" + VoreStats.getPreyDigested(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] ");
+        p.sendMessage(Settings.msgPrefix + " §6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
+        p.sendMessage(Settings.msgPrefix + " §eTimes eaten: §2" + VoreStats.getTimesEaten(p));
+        p.sendMessage(Settings.msgPrefix + " §eTimes digested: §2" + VoreStats.getTimesDigested(p));
+        p.sendMessage(Settings.msgPrefix + " §ePrey eaten: §2" + VoreStats.getPreyEaten(p));
+        p.sendMessage(Settings.msgPrefix + " §ePrey digested: §2" + VoreStats.getPreyDigested(p));
+        p.sendMessage(Settings.msgPrefix);
 
         if (VoreStats.getTimesDigested(p) == 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
-        } else p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
+            p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
 
         if (VoreStats.getPreyDigested(p) == 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
-        } else p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
+            p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
 
         return true;
     }

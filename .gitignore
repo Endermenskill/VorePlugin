@@ -5,6 +5,8 @@
 *.ipr
 *.iws
 
+TODO
+
 # IntelliJ
 out/
 
@@ -111,3 +113,4 @@ buildNumber.properties
 
 # Common working directory
 run/
+/TODO

@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.player;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.VorePlugin;
 import me.endermenskill.voreplugin.stats.StatTypes;
 import me.endermenskill.voreplugin.vore.VoreType;
@@ -51,12 +52,12 @@ public class PlayerUtil {
         }
 
         File playerFile = new File(playersFolder, p.getUniqueId() + ".yml");
-        if (!playerFile.exists())
+        if (!playerFile.exists()) {
             try {
                 playerFile.createNewFile();
 
                 YamlConfiguration ymlConfig = YamlConfiguration.loadConfiguration(playerFile);
-                ymlConfig.set("rank", PlayerRank.SWITCH.toString());
+                ymlConfig.set("rank", PlayerRank.UNSET.toString());
 
                 ymlConfig.createSection("bellies");
                 for (int i = 1; i <= 64; i++) {
@@ -65,14 +66,16 @@ public class PlayerUtil {
 
                 ymlConfig.createSection("stats");
                 for (StatTypes stat : StatTypes.values()) {
-                    ymlConfig.set("stats."+stat.toString(), 0);
+                    ymlConfig.set("stats." + stat.toString(), 0);
                 }
 
                 ymlConfig.save(playerFile);
-            }
-            catch (IOException e) {
+
+                p.sendMessage(Settings.msgPrefix + " It seems like it's your first time playing. Be sure to set your vore rank with §a/setrank <rank>");
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     /**
@@ -109,6 +112,7 @@ public class PlayerUtil {
         for (String key : bellies.getKeys(false)) {
             String bellySection = bellies.getString(key + ".name");
             try {
+                assert bellySection != null;
                 if (bellySection.equals(bellyName)) {
                     return key;
                 }

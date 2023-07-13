@@ -28,7 +28,7 @@ public class GUIUtil {
 
         assert meta != null;
 
-        meta.setDisplayName("§b§l" + belly.name);
+        meta.setDisplayName("§d§l" + belly.name);
 
         List<String> lore = new ArrayList<>();
 

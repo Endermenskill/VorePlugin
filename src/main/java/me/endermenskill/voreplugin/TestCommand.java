@@ -31,7 +31,7 @@ public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         Player p = (Player) sender;
-        p.sendMessage("Testing: Belly items");
+        p.sendMessage(Settings.msgPrefix + " Testing: Belly items");
 
         List<String> lore = new ArrayList<>();
         lore.add("Mmmh, yummy prey. :3");

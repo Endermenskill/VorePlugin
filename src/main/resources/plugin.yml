@@ -2,7 +2,7 @@ name: VorePlugin
 version: 2.0.0-DEV
 main: me.endermenskill.voreplugin.VorePlugin
 api-version: 1.19
-authors: [ Endermenskill ]
+authors: [Endermenskill]
 softdepend: [PlaceholderAPI]
 description: Rewrite of adamholder01's voreplugin for VelocityGaming5 on fiverr.
 commands:

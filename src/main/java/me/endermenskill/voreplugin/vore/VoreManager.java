@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.vore;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
@@ -59,10 +60,12 @@ public class VoreManager {
      * @return true if vore is possible, false otherwise
      */
     public static boolean canVore(Player pred, @Nullable Player prey) {
-        if (PlayerUtil.getPlayerRank(pred) == PlayerRank.PREY) {
+        if (PlayerUtil.getPlayerRank(pred) == PlayerRank.UNSET) {
+            pred.sendMessage(Settings.msgPrefix + " §cYou cannot participate in vore without setting a rank. Set your vore rank with §a/setrank <rank>");
             return false;
         }
-        if (prey != null && PlayerUtil.getPlayerRank(prey) == PlayerRank.PREDATOR) {
+
+        if (PlayerUtil.getPlayerRank(pred) == PlayerRank.PREY) {
             return false;
         }
 
@@ -70,8 +73,23 @@ public class VoreManager {
             return false;
         }
 
-        if (prey != null && !pred.getNearbyEntities(5,5,5).contains(prey)) {
-            return false;
+        if (prey != null) {
+            if (PlayerUtil.getPlayerRank(prey) == PlayerRank.UNSET) {
+                prey.sendMessage(Settings.msgPrefix + " §cYou cannot participate in vore without setting a rank. Set your vore rank with §a/setrank <rank>");
+                return false;
+            }
+
+            if (PlayerUtil.getPlayerRank(prey) == PlayerRank.PREDATOR) {
+                return false;
+            }
+
+            if (!getPrey(prey).isEmpty()) {
+                return false;
+            }
+
+            if (!pred.getNearbyEntities(5,5,5).contains(prey)) {
+                return false;
+            }
         }
 
         return true;
@@ -94,8 +112,7 @@ public class VoreManager {
             assert section != null;
 
             try {
-                Belly belly = new Belly(p);
-                belly.load(section);
+                Belly belly = new Belly(section);
 
                 bellies.add(belly);
             }
@@ -114,7 +131,7 @@ public class VoreManager {
         ArrayList<Player> eatenPrey = getPrey(p);
         if (eatenPrey.size() > 0) {
             for (Player prey : eatenPrey) {
-                prey.sendMessage("§8[§b§lVorePlugin§8] §aSomething happened to " + p.getDisplayName() + " so you were automatically released from their belly.");
+                prey.sendMessage(Settings.msgPrefix + " §aSomething happened to " + p.getDisplayName() + " so you were automatically released from their belly.");
                 prey.teleport(p.getLocation());
             }
         }

@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.gui;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.listeners.HitListener;
 import me.endermenskill.voreplugin.player.PlayerUtil;
@@ -65,7 +66,7 @@ public class BellySelectGui {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
-        String bellyName = meta.getDisplayName().replace("§b§l", "");
+        String bellyName = meta.getDisplayName().replace("§d§l", "");
 
         Belly belly = VoreManager.getBelly(pred, bellyName);
 
@@ -77,7 +78,7 @@ public class BellySelectGui {
         }
 
         if (VoreManager.voredPlayers.get(pred.getUniqueId()) != null) {
-            pred.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot swallow players while inside someones belly (yet).");
+            pred.sendMessage(Settings.msgPrefix + " §cYou cannot swallow players while inside someones belly (yet).");
             pred.closeInventory();
             return;
         }
@@ -86,18 +87,18 @@ public class BellySelectGui {
 
         assert belly != null;
         if (belly.type == null) {
-            pred.sendMessage("§8[§b§lVorePlugin§8] §cError fetching belly type");
+            pred.sendMessage(Settings.msgPrefix + " §cError fetching belly type");
             return;
         }
 
         if (preyPreferences.contains(belly.type)) {
-            pred.sendMessage("§8[§b§lVorePlugin§8] §c" + prey.getDisplayName() + " has blacklisted " + belly.type + " type bellies.");
+            pred.sendMessage(Settings.msgPrefix + " §c" + prey.getDisplayName() + " has blacklisted " + belly.type + " type bellies.");
             return;
         }
 
         VoreManager.voredPlayers.put(prey.getUniqueId(),belly);
         if (!prey.teleport(belly.location)) {
-            pred.sendMessage("§8[§b§lVorePlugin§8] §cError teleporting " + prey.getDisplayName() + " to belly location.");
+            pred.sendMessage(Settings.msgPrefix + " §cError teleporting " + prey.getDisplayName() + " to belly location.");
             VoreManager.voredPlayers.remove(prey.getUniqueId());
             prey.removePotionEffect(PotionEffectType.SLOW);
             return;
@@ -115,9 +116,7 @@ public class BellySelectGui {
         pred.sendMessage(belly.getSwallowMessage(prey));
         prey.setGameMode(GameMode.ADVENTURE);
 
-        if (pred.getOpenInventory() == e.getView()) {
-            pred.closeInventory();
-        }
+        pred.closeInventory();
 
         VoreStats.incrementPreyEaten(pred);
         VoreStats.incrementTimesEaten(prey);

@@ -43,6 +43,13 @@ public class Belly {
         this.setBellyEffect("SLOW");
         this.setAcidStrength((byte) 1);
     }
+    /**
+     * Alternate class constructor to instantly load a new object with a belly's data
+     * @param data ConfigurationSection containing valid belly data to load
+     */
+    public Belly (ConfigurationSection data) {
+        this.load(data);
+    }
 
     /**
      * Method to initialise the belly class' variables
@@ -271,6 +278,8 @@ public class Belly {
      */
     public void load(ConfigurationSection data) {
 
+        this.owner = UUID.fromString(data.getString("owner"));
+
         this.name = data.getString("name");
 
         World world = Bukkit.getWorld(UUID.fromString(String.valueOf(data.get("world"))));
@@ -289,28 +298,28 @@ public class Belly {
 
         if (data.getString("swallowMessage") == null) {
             Bukkit.getLogger().warning("Could not find swallowMessage for belly " + this.name + " from player " + this.getOwner().getName() + ", UUID " + this.owner);
-            this.swallowMessage = "You have been swallowed by %vore_pred%.";
+            this.swallowMessage = "You have been swallowed.";
         } else {
             this.swallowMessage = data.getString("swallowMessage");
         }
 
         if (data.getString("digestInitMessage") == null) {
             Bukkit.getLogger().warning("Could not find digestInitMessage for belly " + this.name + " from player " + this.getOwner().getName() + ", UUID " + this.owner);
-            this.digestInitMessage = "%vore_pred% starts to digest you, their belly grumbling eagerly.";
+            this.digestInitMessage = "Your captor starts to digest you, their belly grumbling eagerly.";
         }else {
             this.digestInitMessage = data.getString("digestInitMessage");
         }
 
         if (data.getString("digestMessage") == null) {
             Bukkit.getLogger().warning("Could not find digestMessage for belly " + this.name + " from player " + this.getOwner().getName() + ", UUID " + this.owner);
-            this.digestMessage = "%vore_prey% got digested by %vore_pred%";
+            this.digestMessage = "<prey> got digested by <pred>";
         }else {
             this.digestMessage = data.getString("digestMessage");
         }
 
         if (data.getString("releaseMessage") == null) {
             Bukkit.getLogger().warning("Could not find releaseMessage for belly " + this.name + " from player " + this.getOwner().getName() + ", UUID " + this.owner);
-            this.releaseMessage = "*The walls around you contract, pushing you out of %vore_pred%'s belly.*";
+            this.releaseMessage = "*The walls around you contract, pushing you out of your pred's belly.*";
         }else {
             this.releaseMessage = data.getString("releaseMessage");
         }

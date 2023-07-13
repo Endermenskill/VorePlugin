@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.stats;
 
+import me.endermenskill.voreplugin.Settings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -44,7 +45,6 @@ public class VoreTopCommand implements CommandExecutor {
 
         ArrayList<Map.Entry<Player, Integer>> statData = new ArrayList<>(data.entrySet());
 
-        //noinspection Convert2Lambda
         statData.sort(new Comparator<>() {
             @Override
             public int compare(Map.Entry<Player, Integer> o1, Map.Entry<Player, Integer> o2) {
@@ -55,11 +55,11 @@ public class VoreTopCommand implements CommandExecutor {
             }
         });
 
-        p.sendMessage("§8[§b§lVorePlugin§8] §6----- Leaderboard for §r" + args[0] + "§6 -----");
+        p.sendMessage(Settings.msgPrefix + " §6----- Leaderboard for §r" + args[0] + "§6 -----");
         for (int i = -1; i >= -10; i--) {
             Player player = statData.get(i).getKey();
             Integer stat = statData.get(i).getValue();
-            p.sendMessage("§8[§b§lVorePlugin§8] §e" + player.getDisplayName() + "§e: §2" + stat);
+            p.sendMessage(Settings.msgPrefix + " §e" + player.getDisplayName() + "§e: §2" + stat);
         }
         return true;
     }

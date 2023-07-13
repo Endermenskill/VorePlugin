@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.belly;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreManager;
@@ -29,23 +30,23 @@ public class SetBellyCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return true;
         }
 
         Player p = (Player) sender;
 
         if (PlayerUtil.getPlayerRank(p) == PlayerRank.PREY) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cPrey can't set bellies.");
+            sender.sendMessage(Settings.msgPrefix + " §cPrey can't set bellies.");
             return true;
         }
 
         if (VoreManager.getPrey(p).size() > 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cCannot set bellies while having swallowed prey.");
+            p.sendMessage(Settings.msgPrefix + " §cCannot set bellies while having swallowed prey.");
         }
 
         if (args.length < 1) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cExpected argument at position 0 but found none.");
+            p.sendMessage(Settings.msgPrefix + " §cExpected argument at position 0 but found none.");
             return false;
         }
 
@@ -65,7 +66,7 @@ public class SetBellyCommand implements CommandExecutor {
             belly.setType(type);
         }
         catch (Exception e) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cInvalid vore type. §rAvailable types are §a" + Arrays.toString(VoreType.values()));
+            p.sendMessage(Settings.msgPrefix + " §cInvalid vore type. §rAvailable types are §a" + Arrays.toString(VoreType.values()));
             return true;
         }
 
@@ -76,13 +77,13 @@ public class SetBellyCommand implements CommandExecutor {
         catch (NullPointerException ignored) {}
 
         if (bellyAmount >= 64) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou can only have up to 64 bellies set at once.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou can only have up to 64 bellies set at once.");
             return true;
         }
 
         belly.save();
 
-        sender.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
+        sender.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }

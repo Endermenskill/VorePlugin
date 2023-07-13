@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.player;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.StatTypes;
 import me.endermenskill.voreplugin.stats.VoreStats;
@@ -24,7 +25,7 @@ public class VoreCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return true;
         }
 
@@ -71,20 +72,20 @@ public class VoreCommand implements CommandExecutor {
         }
 
         assert p != null;
-        p.sendMessage("§8[§b§lVorePlugin§8] §6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
-        p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten: §2" + VoreStats.getTimesEaten(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §eTimes digested: §2" + VoreStats.getTimesDigested(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten: §2" + VoreStats.getPreyEaten(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] §ePrey digested: §2" + VoreStats.getPreyDigested(p));
-        p.sendMessage("§8[§b§lVorePlugin§8] ");
+        p.sendMessage(Settings.msgPrefix + " §6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
+        p.sendMessage(Settings.msgPrefix + " §eTimes eaten: §2" + VoreStats.getTimesEaten(p));
+        p.sendMessage(Settings.msgPrefix + " §eTimes digested: §2" + VoreStats.getTimesDigested(p));
+        p.sendMessage(Settings.msgPrefix + " §ePrey eaten: §2" + VoreStats.getPreyEaten(p));
+        p.sendMessage(Settings.msgPrefix + " §ePrey digested: §2" + VoreStats.getPreyDigested(p));
+        p.sendMessage(Settings.msgPrefix);
 
         if (VoreStats.getTimesDigested(p) == 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
-        } else p.sendMessage("§8[§b§lVorePlugin§8] §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
+            p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
 
         if (VoreStats.getPreyDigested(p) == 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
-        } else p.sendMessage("§8[§b§lVorePlugin§8] §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
+            p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
 
         return true;
     }
@@ -116,7 +117,6 @@ public class VoreCommand implements CommandExecutor {
 
         ArrayList<Map.Entry<Player, Integer>> statData = new ArrayList<>(data.entrySet());
 
-        //noinspection Convert2Lambda
         statData.sort(new Comparator<>() {
             @Override
             public int compare(Map.Entry<Player, Integer> o1, Map.Entry<Player, Integer> o2) {
@@ -127,11 +127,11 @@ public class VoreCommand implements CommandExecutor {
             }
         });
 
-        p.sendMessage("§8[§b§lVorePlugin§8] §6----- Leaderboard for §r" + args[0] + "§6 -----");
+        p.sendMessage(Settings.msgPrefix + " §6----- Leaderboard for §r" + args[0] + "§6 -----");
         for (int i = -1; i >= -10; i--) {
             Player player = statData.get(i).getKey();
             Integer stat = statData.get(i).getValue();
-            p.sendMessage("§8[§b§lVorePlugin§8] §e" + player.getDisplayName() + "§e: §2" + stat);
+            p.sendMessage(Settings.msgPrefix + " §e" + player.getDisplayName() + "§e: §2" + stat);
         }
         return true;
     }
@@ -145,12 +145,12 @@ public class VoreCommand implements CommandExecutor {
     private boolean setBelly(Player p, String[] args) {
 
         if (PlayerUtil.getPlayerRank(p) == PlayerRank.PREY) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cPreys can't set bellies.");
+            p.sendMessage(Settings.msgPrefix + " §cPreys can't set bellies.");
             return true;
         }
 
         if (VoreManager.getPrey(p).size() > 0) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cCannot set bellies while having swallowed prey.");
+            p.sendMessage(Settings.msgPrefix + " §cCannot set bellies while having swallowed prey.");
             return true;
         }
 
@@ -171,18 +171,18 @@ public class VoreCommand implements CommandExecutor {
             belly.setType(type);
         }
         catch (IllegalArgumentException e) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §c\"" + args[2] + "\" is not a valid vore type. §rAvailable types are §a" + Arrays.toString(VoreType.values()));
+            p.sendMessage(Settings.msgPrefix + " §c\"" + args[2] + "\" is not a valid vore type. §rAvailable types are §a" + Arrays.toString(VoreType.values()));
             return true;
         }
 
         if (VoreManager.getBellies(p).size() >= 64) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §cYou can only have up to 64 bellies set at once.");
+            p.sendMessage(Settings.msgPrefix + " §cYou can only have up to 64 bellies set at once.");
             return true;
         }
 
         belly.save();
 
-        p.sendMessage("§8[§b§lVorePlugin§8] §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
         VoreManager.reloadPlayerBellies(p);
         return true;
     }
@@ -198,9 +198,9 @@ public class VoreCommand implements CommandExecutor {
 
         if (args.length == 1) {
             switch (PlayerUtil.getPlayerRank(p)) {
-                case PREDATOR -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are a §cPREDATOR§a.");
-                case PREY -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are a PREY.");
-                case SWITCH -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are a §9SWITCH§a.");
+                case PREDATOR -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.PREDATOR.getSymbol() + "§a.");
+                case PREY -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.PREY.getSymbol() + "§a.");
+                case SWITCH -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.SWITCH.getSymbol() + "§a.");
             }
             return true;
         }
@@ -213,7 +213,7 @@ public class VoreCommand implements CommandExecutor {
             rank = PlayerRank.valueOf(args[1].toUpperCase());
 
         } catch (Exception e) {
-            p.sendMessage("§8[§b§lVorePlugin§8] §c\"" + args[1] + "\" is not a rank. Please use predator, switch, or prey.");
+            p.sendMessage(Settings.msgPrefix + " §c\"" + args[1] + "\" is not a rank. Please use predator, switch, or prey.");
             return true;
         }
 
@@ -222,9 +222,9 @@ public class VoreCommand implements CommandExecutor {
         PlayerUtil.savePlayerFile(p, playerFile);
 
         switch (rank.name()) {
-            case "PREDATOR" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a §cPREDATOR§a. Happy snacking!");
-            case "PREY" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a PREY. Beware of hungry predators!");
-            case "SWITCH" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a §9SWITCH§a. The best of both worlds.");
+            case "PREDATOR" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.PREDATOR.getSymbol() + "§a. Happy snacking!");
+            case "PREY" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.PREY.getSymbol() + "§a. Beware of hungry predators!");
+            case "SWITCH" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.SWITCH.getSymbol() + "§a. The best of both worlds.");
         }
 
         return true;
@@ -257,7 +257,7 @@ public class VoreCommand implements CommandExecutor {
                     VoreType type = VoreType.valueOf(args[2]);
 
                     if (preferences.contains(type)) {
-                        p.sendMessage("§8[§b§lVorePlugin§8] §cYou already blacklisted that vore type.");
+                        p.sendMessage(Settings.msgPrefix + " §cYou already blacklisted that vore type.");
                         break;
                     }
                     preferences.add(type);
@@ -269,11 +269,11 @@ public class VoreCommand implements CommandExecutor {
 
                     file.set("preferences", finalPreferences.toString());
                     PlayerUtil.savePlayerFile(p, file);
-                    p.sendMessage("§8[§b§lVorePlugin§8] §aAdded vore type \"" + args[2] + "\" to blacklist.");
+                    p.sendMessage(Settings.msgPrefix + " §aAdded vore type \"" + args[2] + "\" to blacklist.");
                     break;
                 }
                 catch (IllegalArgumentException e) {
-                    p.sendMessage("§8[§b§lVorePlugin§8] §c" + args[2] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
+                    p.sendMessage(Settings.msgPrefix + " §c" + args[2] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
                 }
             }
 
@@ -289,16 +289,16 @@ public class VoreCommand implements CommandExecutor {
 
                     file.set("preferences", finalPreferences.toString());
                     PlayerUtil.savePlayerFile(p, file);
-                    p.sendMessage("§8[§b§lVorePlugin§8] §aRemoved vore type \"" + args[2] + "\" from blacklist.");
+                    p.sendMessage(Settings.msgPrefix + " §aRemoved vore type \"" + args[2] + "\" from blacklist.");
                     break;
                 }
                 catch (IllegalArgumentException e) {
-                    p.sendMessage("§8[§b§lVorePlugin§8] §cYou did not blacklist \"" + args[2] + "\"");
+                    p.sendMessage(Settings.msgPrefix + " §cYou did not blacklist \"" + args[2] + "\"");
                     break;
                 }
             }
 
-            default: p.sendMessage("§8[§b§lVorePlugin§8] §aYour blacklisted vore types are " + Arrays.toString(rawPreferences));
+            default: p.sendMessage(Settings.msgPrefix + " §aYour blacklisted vore types are " + Arrays.toString(rawPreferences));
         }
 
         PlayerUtil.savePlayerFile(p, file);

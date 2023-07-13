@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.player;
 
+import me.endermenskill.voreplugin.Settings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,20 +24,26 @@ public class SetRankCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         PlayerRank rank;
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return true;
-        }
-        if (args.length != 1) {
-            return false;
         }
 
         Player p = (Player)sender;
+
+        if (args.length == 0) {
+            switch (PlayerUtil.getPlayerRank(p)) {
+                case PREDATOR -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.PREDATOR.getSymbol() + "§a.");
+                case PREY -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.PREY.getSymbol() + "§a.");
+                case SWITCH -> p.sendMessage(Settings.msgPrefix + " §aYou are a " + PlayerRank.SWITCH.getSymbol() + "§a.");
+            }
+            return true;
+        }
 
         try {
             if (args[0].equalsIgnoreCase("PRED")) args[0] = "PREDATOR";
             rank = PlayerRank.valueOf(args[0].toUpperCase());
         } catch (Exception e) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §c\"" + args[0] + "\" is not a rank. Please use predator/pred, switch, or prey.");
+            sender.sendMessage(Settings.msgPrefix + " §c\"" + args[0] + "\" is not a rank. Please use predator/pred, switch, or prey.");
             return true;
         }
         FileConfiguration playerFile = PlayerUtil.getPlayerFile(p);
@@ -44,9 +51,9 @@ public class SetRankCommand implements CommandExecutor {
         PlayerUtil.savePlayerFile(p, playerFile);
 
         switch (rank.name()) {
-            case "PREDATOR" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a §cPREDATOR§a. Happy snacking!");
-            case "PREY" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a PREY. Beware of hungry predators!");
-            case "SWITCH" -> p.sendMessage("§8[§b§lVorePlugin§8] §aYou are now a §9SWITCH§a. The best of both worlds.");
+            case "PREDATOR" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.PREDATOR.getSymbol() + "§a. Happy snacking!");
+            case "PREY" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.PREY.getSymbol() + "§a. Beware of hungry predators!");
+            case "SWITCH" -> p.sendMessage(Settings.msgPrefix + " §aYou are now a " + PlayerRank.SWITCH.getSymbol() + "§a. The best of both worlds.");
         }
 
         return true;

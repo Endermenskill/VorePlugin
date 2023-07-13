@@ -10,19 +10,16 @@ public class Settings {
     public static int maxBellies;
     public static int turduckenLimit = 0;
 
-    public static String bellyModelPrefix = "675682";
 
+    public static final String msgPrefix = "§8[§b§lVorePlugin§8]§r";
+    public static final String bellyModelPrefix = "675682";
+    public static boolean papi = false;
 
     /**
      * Setup function to initialise the settings
      */
     static void setup() {
         FileConfiguration config = VorePlugin.getPlugin().getConfig();
-
-        if (Bukkit.getPluginManager().getPlugin("Vault") == null) {
-            Bukkit.getLogger().severe("Missing dependency: Vault\nDisabling VorePlugin...");
-            Bukkit.getPluginManager().disablePlugin(VorePlugin.getPlugin());
-        }
 
         maxBellies = config.getInt("bellyMax");
         if (maxBellies == 0) {

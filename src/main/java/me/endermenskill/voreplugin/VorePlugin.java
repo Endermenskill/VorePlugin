@@ -15,25 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//TODO main todo list:
-// - clean up and polish
-// - ---------- compile version -> VorePlugin 2.0: A new beginning ----------
-// - characters (per character nickname and bellies)
-// - GUIs to replace commands
-// - limited chat range for swallowed people
-// - Objects that I've shoved up my ass: Minecraft edition (aka object vore and belly inventory)
-// - burp up items
-// - variable turducken limitation? (currently 0)
-// - belly related actions
-// - different post-digestion states (reformation, absorption, disposal)
-// - ---------- compile version -> VorePlugin 2.1: The GUI update ----------
-// - ...
-// - ---------- general improvements (difficult / low priority) ----------
-// - swallow paths / connected structures via "holes"
-// - CPM compatibility (toggle pose on vore)
-// - lots of customization
-// - addon support (hook into plugin and augment it)
-
 /**
  * Main plugin class
  */
@@ -59,7 +40,7 @@ public class VorePlugin extends JavaPlugin {
         getCommand("vorestats").setExecutor(new VoreStatsCommand());
         getCommand("voretop").setExecutor(new VoreTopCommand());
         getCommand("vore").setExecutor(new VoreCommand());
-        getCommand("test").setExecutor(new TestCommand()); //Super secret testing command
+        //getCommand("test").setExecutor(new TestCommand()); ->Super secret testing command
 
         getCommand("setbelly").setTabCompleter(new SetBellyTabCompleter());
         getCommand("setrank").setTabCompleter(new SetRankTabCompleter());
@@ -79,10 +60,9 @@ public class VorePlugin extends JavaPlugin {
         Settings.setup();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            Bukkit.getLogger().info("[VorePlugin] Hooking into PlaceholderAPI...");
             new PlaceholderHook(this).register();
-        }
-        else {
-            Bukkit.getLogger().warning("[VorePlugin] PlaceholderAPI is missing, certain features will not work correctly.");
+            Settings.papi = true;
         }
     }
 

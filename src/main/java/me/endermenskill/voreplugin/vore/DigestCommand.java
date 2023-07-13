@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.vore;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.player.PlayerUtil;
@@ -31,7 +32,7 @@ public class DigestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return true;
         }
 
@@ -51,28 +52,28 @@ public class DigestCommand implements CommandExecutor {
 
         for (Player target : targets) {
             if (target == null) {
-                p.sendMessage("§8[§b§lVorePlugin§8] §cThere is no player online called \"" + args[0] + "\"."); return true;
+                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\"."); return true;
             }
 
             if (PlayerUtil.getPlayerRank(target) == PlayerRank.PREDATOR) {
-                p.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot digest predator " + target.getDisplayName() + ".");
+                p.sendMessage(Settings.msgPrefix + " §cYou cannot digest predator " + target.getDisplayName() + ".");
                 return true;
             }
 
             if (target.isInvulnerable()) {
-                p.sendMessage("§8[§b§lVorePlugin§8] §c" + target.getDisplayName() + " is invulnerable. Are they in creative or god mode?");
+                p.sendMessage(Settings.msgPrefix + " §c" + target.getDisplayName() + " is invulnerable. Are they in creative or god mode?");
                 return true;
             }
 
             Belly belly = VoreManager.voredPlayers.get(target.getUniqueId());
 
             PotionEffect digest = new PotionEffect(PotionEffectType.WITHER, 6000, belly.acidStrength, false, false, false);
-            PotionEffect saturate = new PotionEffect(PotionEffectType.SATURATION, 200, 1, false, false, false);
+            PotionEffect saturate = new PotionEffect(PotionEffectType.SATURATION, 6000, 1, false, false, true);
 
             target.addPotionEffect(digest);
             p.addPotionEffect(saturate);
 
-            p.sendMessage("§8[§b§lVorePlugin§8] §cDigesting " + target.getDisplayName());
+            p.sendMessage(Settings.msgPrefix + " §cDigesting " + target.getDisplayName());
             target.sendMessage(belly.getDigestInitMessage(target));
 
             VoreStats.incrementPreyDigested(p);

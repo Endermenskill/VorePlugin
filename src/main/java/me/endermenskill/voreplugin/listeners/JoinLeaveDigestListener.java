@@ -1,7 +1,10 @@
 package me.endermenskill.voreplugin.listeners;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
+import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
+import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -25,8 +28,13 @@ public class JoinLeaveDigestListener implements Listener {
      */
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        PlayerUtil.getPlayerFile(e.getPlayer());
-        VoreManager.loadPlayerBellies(e.getPlayer());
+        Player p = e.getPlayer();
+
+        PlayerUtil.getPlayerFile(p);
+        VoreManager.loadPlayerBellies(p);
+        if (PlayerUtil.getPlayerRank(p) == PlayerRank.UNSET) {
+            p.sendMessage(Settings.msgPrefix + " It seems like it's your first time playing. Be sure to set your vore rank with §a/setrank <rank>");
+        }
     }
 
     /**
@@ -45,26 +53,30 @@ public class JoinLeaveDigestListener implements Listener {
      */
     @EventHandler
     public void onDeath(PlayerDeathEvent e) {
-        Player p = e.getEntity();
+        Player prey = e.getEntity();
+        Player pred = VoreManager.getPredator(prey);
 
-        if (!VoreManager.voredPlayers.containsKey(p.getUniqueId())) {
+        if (!VoreManager.voredPlayers.containsKey(prey.getUniqueId())) {
             return;
         }
 
-        Belly belly = VoreManager.voredPlayers.get(p.getUniqueId());
-        VoreManager.voredPlayers.remove(p.getUniqueId());
+        Belly belly = VoreManager.voredPlayers.get(prey.getUniqueId());
+        VoreManager.voredPlayers.remove(prey.getUniqueId());
         if (belly == null) {
             return;
         }
 
-        e.setDeathMessage(p.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
-        p.sendMessage(belly.getDigestMessage(p));
+        e.setDeathMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
+        prey.sendMessage(belly.getDigestMessage(prey));
 
-        GameMode previousGameMode = p.getPreviousGameMode();
-        p.setGameMode((previousGameMode != null) ? previousGameMode : GameMode.SURVIVAL);
+        GameMode previousGameMode = prey.getPreviousGameMode();
+        prey.setGameMode((previousGameMode != null) ? previousGameMode : GameMode.SURVIVAL);
         e.getDrops().clear();
-        Location respawn = (p.getBedSpawnLocation() != null) ? p.getBedSpawnLocation() : belly.getOwner().getLocation();
-        p.teleport(respawn);
+        Location respawn = (prey.getBedSpawnLocation() != null) ? prey.getBedSpawnLocation() : belly.getOwner().getLocation();
+        prey.teleport(respawn);
+
+        VoreStats.incrementPreyDigested(pred);
+        VoreStats.incrementTimesDigested(prey);
         //VoreManager.digestedPlayers.put(p.getUniqueId(), belly);
     }
 

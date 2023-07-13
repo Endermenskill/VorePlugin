@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.potion.PotionEffectType;
 
 public class InventoryListener implements Listener {
 
@@ -26,9 +27,8 @@ public class InventoryListener implements Listener {
     public void onInventoryClose(InventoryCloseEvent e) {
         Player p = (Player) e.getPlayer();
 
-        //noinspection StatementWithEmptyBody
         if (BellySelectGui.players.remove(p)) {
-            //some logic to apply on inventory closing...?
+            p.removePotionEffect(PotionEffectType.SLOW);
         }
     }
 }

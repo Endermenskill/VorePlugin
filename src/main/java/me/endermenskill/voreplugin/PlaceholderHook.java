@@ -71,16 +71,8 @@ class PlaceholderHook extends PlaceholderExpansion {
 
     private String rankRequest(Player player) {
         PlayerRank rank = PlayerUtil.getPlayerRank(player);
-        switch (rank) {
-            case SWITCH -> {
-                return "§6[§1SWITCH§6]§r";
-            }
-            case PREDATOR -> {
-                return "§6[§cPRED§6]§r";
-            }
-            case PREY -> {
-                return "§6[§aPREY§6]§r";
-            }
+        if (rank != null) {
+            return rank.getSymbol();
         }
         return null;
     }

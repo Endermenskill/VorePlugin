@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.player;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class PreferenceCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("§8[§b§lVorePlugin§8] §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
             return true;
         }
         if (args.length > 2){
@@ -43,16 +44,16 @@ public class PreferenceCommand implements CommandExecutor {
                 try {
                     VoreType type = VoreType.valueOf(args[1]);
                     if (preferences.contains(type)) {
-                        p.sendMessage("§8[§b§lVorePlugin§8] §cYou already blacklisted that vore type.");
+                        p.sendMessage(Settings.msgPrefix + " §cYou already blacklisted that vore type.");
                         break;
                     }
                     preferences.add(type);
                     file.set("preferences", preferences.toString());
                     PlayerUtil.savePlayerFile(p, file);
-                    p.sendMessage("§8[§b§lVorePlugin§8] §aAdded vore type \"" + args[1] + "\" to blacklist.");
+                    p.sendMessage(Settings.msgPrefix + " §aAdded vore type \"" + args[1] + "\" to blacklist.");
                     break;
                 } catch (IllegalArgumentException e) {
-                    p.sendMessage("§8[§b§lVorePlugin§8] §c" + args[1] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
+                    p.sendMessage(Settings.msgPrefix + " §c" + args[1] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
                 }
             }
 
@@ -63,12 +64,12 @@ public class PreferenceCommand implements CommandExecutor {
                         preferences.remove(type);
                         file.set("preferences", preferences.toString());
                         PlayerUtil.savePlayerFile(p, file);
-                        p.sendMessage("§8[§b§lVorePlugin§8] §aRemoved vore type \"" + args[1] + "\" from blacklist.");
+                        p.sendMessage(Settings.msgPrefix + " §aRemoved vore type \"" + args[1] + "\" from blacklist.");
                         break;
                     }
                 }
                 catch (IllegalArgumentException e) {
-                    p.sendMessage("§8[§b§lVorePlugin§8] §cYou did not blacklist \"" + args[1] + "\"");
+                    p.sendMessage(Settings.msgPrefix + " §cYou did not blacklist \"" + args[1] + "\"");
                     break;
                 }
             }
@@ -78,7 +79,7 @@ public class PreferenceCommand implements CommandExecutor {
                 for (VoreType preference : preferences) {
                     preferenceMessage.add(preference.toString());
                 }
-                p.sendMessage("§8[§b§lVorePlugin§8] §aYour blacklisted vore types are " + preferenceMessage);
+                p.sendMessage(Settings.msgPrefix + " §aYour blacklisted vore types are " + preferenceMessage);
             }
         }
 
