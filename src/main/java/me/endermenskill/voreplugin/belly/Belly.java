@@ -20,10 +20,10 @@ public class Belly {
     public String name;
     public Location location;
     public VoreType type;
-    String swallowMessage;
-    String digestInitMessage;
-    String digestMessage;
-    String releaseMessage;
+    public String swallowMessage;
+    public String digestInitMessage;
+    public String digestMessage;
+    public String releaseMessage;
     public String bellyEffect;
     public int acidStrength;
 
@@ -43,6 +43,7 @@ public class Belly {
         this.setBellyEffect("SLOW");
         this.setAcidStrength((byte) 1);
     }
+
     /**
      * Alternate class constructor to instantly load a new object with a belly's data
      * @param data ConfigurationSection containing valid belly data to load
@@ -319,7 +320,7 @@ public class Belly {
 
         if (data.getString("releaseMessage") == null) {
             Bukkit.getLogger().warning("Could not find releaseMessage for belly " + this.name + " from player " + this.getOwner().getName() + ", UUID " + this.owner);
-            this.releaseMessage = "*The walls around you contract, pushing you out of your pred's belly.*";
+            this.releaseMessage = "The walls around you contract, pushing you out of your pred's belly.";
         }else {
             this.releaseMessage = data.getString("releaseMessage");
         }

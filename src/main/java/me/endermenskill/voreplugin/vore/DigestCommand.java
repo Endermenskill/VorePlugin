@@ -52,7 +52,8 @@ public class DigestCommand implements CommandExecutor {
 
         for (Player target : targets) {
             if (target == null) {
-                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\"."); return true;
+                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\".");
+                return true;
             }
 
             if (PlayerUtil.getPlayerRank(target) == PlayerRank.PREDATOR) {
@@ -73,6 +74,7 @@ public class DigestCommand implements CommandExecutor {
             target.addPotionEffect(digest);
             p.addPotionEffect(saturate);
 
+            p.sendMessage(Settings.msgPrefix + belly.getDigestInitMessage(target));
             p.sendMessage(Settings.msgPrefix + " §cDigesting " + target.getDisplayName());
             target.sendMessage(belly.getDigestInitMessage(target));
 

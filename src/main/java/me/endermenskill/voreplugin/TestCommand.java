@@ -1,19 +1,18 @@
 package me.endermenskill.voreplugin;
 
-import me.endermenskill.voreplugin.gui.GUIUtil;
-import me.endermenskill.voreplugin.vore.VoreType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Super secret testing command so shush!
@@ -31,24 +30,23 @@ public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         Player p = (Player) sender;
-        p.sendMessage(Settings.msgPrefix + " Testing: Belly items");
+        p.sendMessage(Settings.msgPrefix + " Testing: GUI stuff");
 
-        List<String> lore = new ArrayList<>();
-        lore.add("Mmmh, yummy prey. :3");
+        Inventory inv = Bukkit.createInventory(p, 54, "Does this shit work?");
 
-        for (VoreType type : VoreType.values()) {
-            ItemStack item = new ItemStack(Material.PAPER);
-            int model = GUIUtil.getVoreTypeModelData(type);
+        ItemStack filler = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemMeta fillerMeta = filler.getItemMeta();
+        assert fillerMeta != null;
+        fillerMeta.setDisplayName(" ");
+        fillerMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 
-            ItemMeta meta = item.getItemMeta();
-            meta.setCustomModelData(model);
-            meta.setDisplayName("This represents a " + type.toString().toLowerCase() + " type belly.");
-
-            meta.setLore(lore);
-
-            item.setItemMeta(meta);
-            p.getInventory().addItem(item);
+        for (int i = 0; i < 10; i++) {
+            fillerMeta.addAttributeModifier(Attribute.GENERIC_ARMOR, new AttributeModifier(String.valueOf(i), 0, AttributeModifier.Operation.ADD_NUMBER));
+            filler.setItemMeta(fillerMeta);
+            inv.addItem(filler);
         }
+
+        p.openInventory(inv);
         return true;
     }
 }

@@ -5,11 +5,11 @@ import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,6 @@ import java.util.UUID;
  */
 public class VoreManager {
     public static HashMap<UUID, Belly> voredPlayers = new HashMap<>();
-    public static HashMap<UUID, ArrayList<Belly>> playerBellies = new HashMap<>();
     public static HashMap<UUID, Belly> digestedPlayers = new HashMap<>();
 
 
@@ -56,96 +55,51 @@ public class VoreManager {
     /**
      * Check if a player can vore another player
      * @param pred Predator player to check
-     * @param prey Prey player to check (can be null)
+     * @param prey Prey player to check
      * @return true if vore is possible, false otherwise
      */
-    public static boolean canVore(Player pred, @Nullable Player prey) {
-        if (PlayerUtil.getPlayerRank(pred) == PlayerRank.UNSET) {
-            pred.sendMessage(Settings.msgPrefix + " §cYou cannot participate in vore without setting a rank. Set your vore rank with §a/setrank <rank>");
+    public static boolean canVore(Player pred, Player prey) {
+
+            boolean isNearby = pred.getNearbyEntities(5,5,5).contains(prey);
+            boolean canSee = pred.hasLineOfSight(prey);
+
+            return canBePredator(pred) && canBePrey(prey) && isNearby && canSee;
+    }
+
+    /**
+     * Method used to determine if a player can be a predator
+     * @param p Player to check
+     * @return Boolean result
+     */
+    public static boolean canBePredator(Player p) {
+
+        if (PlayerUtil.getPlayerRank(p) == PlayerRank.PREY || PlayerUtil.getPlayerRank(p) == PlayerRank.UNSET) {
             return false;
         }
 
-        if (PlayerUtil.getPlayerRank(pred) == PlayerRank.PREY) {
+        if (getPredator(p) != null) {
             return false;
-        }
-
-        if (getPredator(pred) != null) {
-            return false;
-        }
-
-        if (prey != null) {
-            if (PlayerUtil.getPlayerRank(prey) == PlayerRank.UNSET) {
-                prey.sendMessage(Settings.msgPrefix + " §cYou cannot participate in vore without setting a rank. Set your vore rank with §a/setrank <rank>");
-                return false;
-            }
-
-            if (PlayerUtil.getPlayerRank(prey) == PlayerRank.PREDATOR) {
-                return false;
-            }
-
-            if (!getPrey(prey).isEmpty()) {
-                return false;
-            }
-
-            if (!pred.getNearbyEntities(5,5,5).contains(prey)) {
-                return false;
-            }
         }
 
         return true;
     }
 
     /**
-     * Loads a player's bellies into playerBellies
-     * @param p Player to load the bellies of
+     * Method used to determine if a player can be a prey
+     * @param p Player to check
+     * @return Boolean result
      */
-    public static void loadPlayerBellies(Player p) {
-        FileConfiguration playerFile = PlayerUtil.getPlayerFile(p);
-        ConfigurationSection bellySection = playerFile.getConfigurationSection("bellies");
+    public static boolean canBePrey(Player p) {
 
-        ArrayList<Belly> bellies = new ArrayList<>();
-
-        assert bellySection != null;
-        for (String key : bellySection.getKeys(false)) {
-
-            ConfigurationSection section = bellySection.getConfigurationSection(key);
-            assert section != null;
-
-            try {
-                Belly belly = new Belly(section);
-
-                bellies.add(belly);
-            }
-            catch (Exception ignored) {}
+        if (PlayerUtil.getPlayerRank(p) == PlayerRank.PREDATOR || PlayerUtil.getPlayerRank(p) == PlayerRank.UNSET) {
+            return false;
         }
 
-        playerBellies.put(p.getUniqueId(),bellies);
-    }
-
-    /**
-     * Removes a player's bellies from playerBellies and teleports currently eaten prey to the player
-     * @param p Player to unload the bellies of
-     */
-    public static void unloadPlayerBellies(Player p) {
-
-        ArrayList<Player> eatenPrey = getPrey(p);
-        if (eatenPrey.size() > 0) {
-            for (Player prey : eatenPrey) {
-                prey.sendMessage(Settings.msgPrefix + " §aSomething happened to " + p.getDisplayName() + " so you were automatically released from their belly.");
-                prey.teleport(p.getLocation());
-            }
+        if (!getPrey(p).isEmpty()) {
+            return false;
         }
 
-        playerBellies.remove(p.getUniqueId());
-    }
-
-    /**
-     * Unloads then loads a player's bellies. For more info see loadPlayerBellies and unloadPlayerBellies
-     * @param p Player to reload the bellies of
-     */
-    public static void reloadPlayerBellies(Player p) {
-        unloadPlayerBellies(p);
-        loadPlayerBellies(p);
+        return true;
     }
 
     /**
@@ -154,7 +108,17 @@ public class VoreManager {
      * @return ArrayList containing that player's bellies
      */
     public static ArrayList<Belly> getBellies(Player p) {
-        return playerBellies.get(p.getUniqueId());
+        ArrayList<Belly> bellies = new ArrayList<>();
+
+        FileConfiguration playerFile = PlayerUtil.getPlayerFile(p);
+        ConfigurationSection bellySection = playerFile.getConfigurationSection("bellies");
+        assert bellySection != null;
+
+        for (String key : bellySection.getKeys(false)) {
+            bellies.add(new Belly(bellySection.getConfigurationSection(key)));
+        }
+
+        return bellies;
     }
 
     /**
@@ -164,7 +128,7 @@ public class VoreManager {
      * @return Belly object of the belly, null if it can't be found.
      */
     public static Belly getBelly(Player p, String name) {
-        for (Belly belly : playerBellies.get(p.getUniqueId())) {
+        for (Belly belly : getBellies(p)) {
             if (belly.name.equals(name)) {
                 return belly;
             }
@@ -187,9 +151,26 @@ public class VoreManager {
             if (bellyName != null && bellyName.equals(belly.name)) {
                 bellies.set(key, null);
                 PlayerUtil.savePlayerFile(p, playerFile);
-                VoreManager.reloadPlayerBellies(p);
                 return;
             }
         }
+    }
+
+    /**
+     * Forecefully releases a player from their predator's belly, if they are in one.
+     * @param p Player to release
+     */
+    public static void emergencyRelease(Player p) {
+
+        if (!voredPlayers.containsKey(p.getUniqueId())) {
+            return;
+        }
+
+        Location releaseLocation = (p.getBedSpawnLocation() == null) ? p.getLocation().getWorld().getSpawnLocation() : p.getBedSpawnLocation();
+
+        voredPlayers.remove(p.getUniqueId());
+        p.teleport(releaseLocation);
+
+        p.sendMessage(Settings.msgPrefix + "Something happened to your predator and you have been forcefully released.");
     }
 }

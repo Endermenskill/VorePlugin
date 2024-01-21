@@ -84,7 +84,6 @@ public class SetBellyCommand implements CommandExecutor {
         belly.save();
 
         sender.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
-        VoreManager.reloadPlayerBellies(p);
         return true;
     }
 }

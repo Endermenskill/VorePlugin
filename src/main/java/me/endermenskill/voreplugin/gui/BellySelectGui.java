@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,50 +20,63 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BellySelectGui {
-
-    public static ArrayList<Player> players = new ArrayList<>();
+public class BellySelectGui implements Listener {
 
     /**
      * Method to create the belly selection GUI
      * @param p Predator Player
-     * @param prey Prey Player
-     * @return Inventory with the player's bellies
+     * @param args Keyword argument(s) to use for creation
      * @throws NullPointerException Throws exception on error
      */
-    public static Inventory create(Player p, Player prey) throws NullPointerException {
-        List<ItemStack> items = new ArrayList<>();
+    public static void create(Player p, @Nullable String args) {
         List<Belly> bellies = VoreManager.getBellies(p);
 
+        String title = "§bSet bellies:";
+        if (args != null && args.equals("vore")) {
+            title = "§bSelect a belly to use for vore";
+        }
+
+        Inventory inv = Bukkit.createInventory(p, 54, title);
+
         for (Belly belly : bellies) {
-            ItemStack item = GUIUtil.getBellyItem(belly);
-            items.add(item);
+            if (inv.getContents().length == 54) {
+                break;
+            }
+            inv.addItem(GUIUtil.getBellyItem(belly));
         }
 
-        Inventory inv = Bukkit.createInventory(p, 54, "§bSelect a belly for " + prey.getDisplayName() + ".");
-
-        for (ItemStack item : items) {
-            inv.addItem(item);
-        }
-
-        players.add(p);
-
-        return inv;
+        p.openInventory(inv);
     }
 
-    public static void onClick(InventoryClickEvent e) {
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        String title = e.getView().getTitle();
+        if (!(title.equals("§bSelect a belly to use for vore") || title.equals("§bSet bellies:"))) {
+            return;
+        }
 
         e.setCancelled(true);
 
+        ItemStack item = e.getCurrentItem();
+        if (item == null || item.getType() == Material.AIR) {
+            return;
+        }
 
+        if (title.equals("§bSelect a belly to use for vore")) {
+            onVore(e);
+        }
+        else {
+            onInspect(e);
+        }
+    }
+
+    private void onVore(InventoryClickEvent e) {
         Player pred = (Player)e.getWhoClicked();
         ItemStack item = e.getCurrentItem();
-
-        if (item == null || item.getType() == Material.AIR)
-            return;
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -116,9 +131,17 @@ public class BellySelectGui {
         pred.sendMessage(belly.getSwallowMessage(prey));
         prey.setGameMode(GameMode.ADVENTURE);
 
-        pred.closeInventory();
-
         VoreStats.incrementPreyEaten(pred);
         VoreStats.incrementTimesEaten(prey);
+    }
+
+    private void onInspect(InventoryClickEvent e) {
+        ItemStack item = e.getCurrentItem();
+        assert item != null;
+
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+
+        String bellyName = meta.getDisplayName().replace("§d§l", "");
     }
 }

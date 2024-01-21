@@ -2,12 +2,12 @@ package me.endermenskill.voreplugin.listeners;
 
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.gui.BellySelectGui;
+import me.endermenskill.voreplugin.gui.GUIUtil;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -27,8 +27,6 @@ public class HitListener implements Listener {
     @EventHandler
     public void onHit(EntityDamageByEntityEvent e) {
 
-        Inventory selectGUI;
-
         if (!(e.getDamager() instanceof Player) || !(e.getEntity() instanceof Player)){
             return;
         }
@@ -41,7 +39,7 @@ public class HitListener implements Listener {
         }
 
         try {
-            selectGUI = BellySelectGui.create(predator, prey);
+            BellySelectGui.create(predator, "vore");
             PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, 300, 99999, false, false, false);
             prey.addPotionEffect(slow);
         } catch (NullPointerException exception) {
@@ -53,6 +51,5 @@ public class HitListener implements Listener {
         vorePlayers.put(predator.getUniqueId(), prey.getUniqueId());
 
         e.setCancelled(true);
-        predator.openInventory(selectGUI);
     }
 }

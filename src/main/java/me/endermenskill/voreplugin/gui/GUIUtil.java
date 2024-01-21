@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import se.eris.notnull.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,5 +60,75 @@ public class GUIUtil {
         String model = Settings.bellyModelPrefix;
         model += voreType.getIndex();
         return Integer.parseInt(model);
+    }
+
+    /**
+     * Returns the Item equivalent of a Belly to use in GUI applications
+     * @param belly Belly to get the data of
+     * @param data Data set to get the information of
+     * @param material Material to use for the item
+     * @return ItemStack of the belly item
+     */
+    public static ItemStack getBellyDataItem(@NotNull Belly belly, @NotNull String data, Material material) {
+        if (material == null) {
+            material = Material.PAPER;
+        }
+
+        ItemStack item = new ItemStack(material);
+        ItemMeta meta = item.getItemMeta();
+        assert meta != null;
+        List<String> lore = new ArrayList<>();
+
+        switch (data) {
+            case "name" -> {
+                meta.setDisplayName("§9Belly name:");
+                lore.add("§d" + belly.name);
+            }
+            case "location" -> {
+                meta.setDisplayName("§dBelly Location:");
+                lore.add("§9World: §a" + belly.location.getWorld().getName());
+                lore.add("§9X: §a" + belly.location.getX());
+                lore.add("§9Y: §a" + belly.location.getY());
+                lore.add("§9Z: §a" + belly.location.getZ());
+            }
+            case "type" -> {
+                meta.setDisplayName("§dVore type:");
+                lore.add("§9" + belly.type.toString());
+            }
+            case "swallowMessage" -> {
+                meta.setDisplayName("§dSwallow message:");
+                lore.add("§a" + belly.swallowMessage);
+            }
+            case "digestInitMessage" -> {
+                meta.setDisplayName("§dDigestion start message:");
+                lore.add("§a" + belly.digestInitMessage);
+            }
+            case "digestMessage" -> {
+                meta.setDisplayName("§dDigestion message");
+                lore.add("§a" + belly.digestMessage);
+            }
+            case "releaseMessage" -> {
+                meta.setDisplayName("§dRelease message:");
+                lore.add("§a" + belly.releaseMessage);
+            }
+            case "bellyEffect" -> {
+                meta.setDisplayName("§dAmbient effect:");
+                lore.add("§a" + belly.bellyEffect);
+            }
+            case "acidStrength" -> {
+                meta.setDisplayName("§dAcid strength:");
+                lore.add("§a" + belly.acidStrength);
+            }
+            case "prey" -> {
+                meta.setDisplayName("§dCurrently vored prey:");
+                for (Player p : VoreManager.getPrey(belly.getOwner())) {
+                    lore.add("§a" + p.getDisplayName());
+                }
+            }
+        }
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 }

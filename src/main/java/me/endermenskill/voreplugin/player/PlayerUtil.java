@@ -104,6 +104,12 @@ public class PlayerUtil {
         return PlayerRank.valueOf(rank);
     }
 
+    /**
+     * Get a belly's configuration section key via it's owner and name.
+     * @param p Player that owns the belly
+     * @param bellyName Name of the belly
+     * @return Key of the belly in the player's config file. null if no belly matching the name is found.
+     */
     public static String getBellyConfigurationSection(Player p, String bellyName) {
         FileConfiguration playerFile = getPlayerFile(p);
         ConfigurationSection bellies = playerFile.getConfigurationSection("bellies");
@@ -142,6 +148,11 @@ public class PlayerUtil {
         return null;
     }
 
+    /**
+     * Get a player's preferences
+     * @param p Player to get the preferences of
+     * @return ArrayList containing all the player's preferences, will be empty if none are set.
+     */
     public static ArrayList<VoreType> getPreferences(Player p) {
         ArrayList<VoreType> preferences = new ArrayList<>();
 
@@ -156,7 +167,9 @@ public class PlayerUtil {
         String[] rawPreferences = preferenceData.split(",");
 
         for (String entry : rawPreferences) {
-            preferences.add(VoreType.valueOf(entry.trim()));
+            if (!entry.isBlank()) {
+                preferences.add(VoreType.valueOf(entry.trim()));
+            }
         }
 
         return preferences;

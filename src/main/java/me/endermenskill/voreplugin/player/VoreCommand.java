@@ -183,7 +183,6 @@ public class VoreCommand implements CommandExecutor {
         belly.save();
 
         p.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
-        VoreManager.reloadPlayerBellies(p);
         return true;
     }
 
