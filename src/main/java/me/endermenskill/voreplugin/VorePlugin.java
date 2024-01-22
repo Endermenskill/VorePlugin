@@ -27,7 +27,6 @@ public class VorePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
-        Bukkit.getLogger().info("This is a rewrite of adamholder01's voreplugin for VelocityGaming5 on fiverr.");
 
         getLogger().info("[VorePlugin] registering listeners...");
         registerListeners();
@@ -73,21 +72,17 @@ public class VorePlugin extends JavaPlugin {
     }
 
     /**
-     * Private method to register listeners
-     * @param listeners sequence of listeners to register
+     * Private method to register the VorePlugin's listeners
      */
-    private void registerEvents(Listener... listeners) {
-        for (Listener l : listeners) {
-            Bukkit.getPluginManager().registerEvents(l, getPlugin());
-        }
-    }
-
     private void registerListeners() {
         Bukkit.getPluginManager().registerEvents(new HitListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new DigestAndReformListener(), getPlugin());
     }
 
+    /**
+     * Private method to register the VorePlugin's commands
+     */
     private void registerCommands() {
         getCommand("setbelly").setExecutor(new SetBellyCommand());
         getCommand("setrank").setExecutor(new SetRankCommand());
@@ -101,6 +96,9 @@ public class VorePlugin extends JavaPlugin {
         getCommand("test").setExecutor(new TestCommand()); //->Super secret testing command
     }
 
+    /**
+     * Private method to register the VorePlugin's TabCompleters
+     */
     private void registerTabCompleters() {
         getCommand("setbelly").setTabCompleter(new SetBellyTabCompleter());
         getCommand("setrank").setTabCompleter(new SetRankTabCompleter());

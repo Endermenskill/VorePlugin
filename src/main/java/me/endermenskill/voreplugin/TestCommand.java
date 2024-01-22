@@ -30,6 +30,11 @@ public class TestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         Player p = (Player) sender;
+
+        if (!Bukkit.getOperators().contains(p)) {
+            return false;
+        }
+
         p.sendMessage(Settings.msgPrefix + " Testing: GUI stuff");
 
         Inventory inv = Bukkit.createInventory(p, 54, "Does this shit work?");

@@ -17,19 +17,19 @@ import java.util.UUID;
  */
 public class Belly {
     UUID owner;
-    public String name;
-    public Location location;
-    public VoreType type;
-    public String swallowMessage;
-    public String digestInitMessage;
-    public String digestMessage;
-    public String releaseMessage;
-    public String bellyEffect;
-    public int acidStrength;
+    private String name;
+    private Location location;
+    private VoreType type;
+    private String swallowMessage;
+    private String digestInitMessage;
+    private String digestMessage;
+    private String releaseMessage;
+    private String bellyEffect;
+    private int acidStrength;
 
 
     /**
-     * Class constructor for a player's belly
+     * Class constructor to create a belly from scratch
      * @param player Player who you want a belly for
      */
     public Belly (Player player) {
