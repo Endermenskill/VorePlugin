@@ -16,16 +16,16 @@ import java.util.UUID;
  * Class representing a belly
  */
 public class Belly {
-    UUID owner;
-    private String name;
-    private Location location;
-    private VoreType type;
-    private String swallowMessage;
-    private String digestInitMessage;
-    private String digestMessage;
-    private String releaseMessage;
-    private String bellyEffect;
-    private int acidStrength;
+    UUID owner = null;
+    private String name = "new belly";
+    private Location location = null;
+    private VoreType type = VoreType.ORAL;
+    private String swallowMessage = "You have been swallowed.";
+    private String digestInitMessage = "Your captor starts to digest you, their belly grumbling eagerly.";
+    private String digestMessage = "<prey> got digested by <pred>";
+    private String releaseMessage = "The walls around you contract, pushing you out of your pred's belly.";
+    private String bellyEffect = "SLOW";
+    private int acidStrength = 1;
 
 
     /**
