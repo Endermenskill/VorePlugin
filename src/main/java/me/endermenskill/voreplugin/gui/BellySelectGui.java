@@ -101,18 +101,18 @@ public class BellySelectGui implements Listener {
         ArrayList<VoreType> preyPreferences = PlayerUtil.getPreferences(prey);
 
         assert belly != null;
-        if (belly.type == null) {
+        if (belly.getType() == null) {
             pred.sendMessage(Settings.msgPrefix + " §cError fetching belly type");
             return;
         }
 
-        if (preyPreferences.contains(belly.type)) {
-            pred.sendMessage(Settings.msgPrefix + " §c" + prey.getDisplayName() + " has blacklisted " + belly.type + " type bellies.");
+        if (preyPreferences.contains(belly.getType())) {
+            pred.sendMessage(Settings.msgPrefix + " §c" + prey.getDisplayName() + " has blacklisted " + belly.getType() + " type bellies.");
             return;
         }
 
         VoreManager.voredPlayers.put(prey.getUniqueId(),belly);
-        if (!prey.teleport(belly.location)) {
+        if (!prey.teleport(belly.getLocation())) {
             pred.sendMessage(Settings.msgPrefix + " §cError teleporting " + prey.getDisplayName() + " to belly location.");
             VoreManager.voredPlayers.remove(prey.getUniqueId());
             prey.removePotionEffect(PotionEffectType.SLOW);
@@ -120,7 +120,7 @@ public class BellySelectGui implements Listener {
         }
         prey.removePotionEffect(PotionEffectType.SLOW);
 
-        PotionEffectType bellyEffectType = PotionEffectType.getByName(belly.bellyEffect);
+        PotionEffectType bellyEffectType = belly.getBellyEffect();
         if (bellyEffectType == null) {
             bellyEffectType = PotionEffectType.SLOW;
         }

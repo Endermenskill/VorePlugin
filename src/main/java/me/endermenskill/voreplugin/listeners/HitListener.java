@@ -2,7 +2,6 @@ package me.endermenskill.voreplugin.listeners;
 
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.gui.BellySelectGui;
-import me.endermenskill.voreplugin.gui.GUIUtil;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

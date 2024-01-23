@@ -29,7 +29,7 @@ public class BellyInfoGui implements Listener {
         Belly belly = VoreManager.getBelly(p, args);
         assert belly != null;
 
-        Inventory inv = Bukkit.createInventory(p, 54, "Information for belly \"" + belly.name + "\"");
+        Inventory inv = Bukkit.createInventory(p, 54, "Information for belly \"" + belly.getName() + "\"");
 
         ItemStack filler = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta fillerMeta = filler.getItemMeta();

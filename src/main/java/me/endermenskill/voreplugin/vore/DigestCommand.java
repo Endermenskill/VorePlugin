@@ -68,7 +68,7 @@ public class DigestCommand implements CommandExecutor {
 
             Belly belly = VoreManager.voredPlayers.get(target.getUniqueId());
 
-            PotionEffect digest = new PotionEffect(PotionEffectType.WITHER, 6000, belly.acidStrength, false, false, false);
+            PotionEffect digest = new PotionEffect(PotionEffectType.WITHER, 6000, belly.getAcidStrength(), false, false, false);
             PotionEffect saturate = new PotionEffect(PotionEffectType.SATURATION, 6000, 1, false, false, true);
 
             target.addPotionEffect(digest);

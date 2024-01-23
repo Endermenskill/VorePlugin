@@ -163,16 +163,14 @@ public class VoreCommand implements CommandExecutor {
 
         Location loc = p.getLocation();
         belly.setLocation(loc);
-        belly.setType(VoreType.ORAL);
+        belly.setDefaults();
 
 
         try {
             VoreType type = VoreType.valueOf(args[2]);
             belly.setType(type);
-        }
-        catch (IllegalArgumentException e) {
-            p.sendMessage(Settings.msgPrefix + " §c\"" + args[2] + "\" is not a valid vore type. §rAvailable types are §a" + Arrays.toString(VoreType.values()));
-            return true;
+        } catch (Exception e) {
+            p.sendMessage(Settings.msgPrefix + " §cInvalid vore type" + args[1] + "§rReplaced missing optiona argument with default value of " + VoreType.ORAL + ".");
         }
 
         if (VoreManager.getBellies(p).size() >= 64) {
@@ -180,9 +178,7 @@ public class VoreCommand implements CommandExecutor {
             return true;
         }
 
-        belly.save();
-
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.name + "\" to your location. May it be the home of many snacks~");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set the belly \"" + belly.getName() + "\" to your location. May it be the home of many snacks~");
         return true;
     }
 

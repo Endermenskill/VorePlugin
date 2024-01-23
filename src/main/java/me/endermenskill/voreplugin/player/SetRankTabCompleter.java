@@ -31,7 +31,8 @@ public class SetRankTabCompleter implements TabCompleter {
         if (args.length <= 1) {
             PlayerRank[] ranks = PlayerRank.values();
             for (PlayerRank rank : ranks) {
-                list.add(rank.toString().toLowerCase());
+                if (rank.toString().startsWith(args[0]))
+                    list.add(rank.toString().toLowerCase());
             }
         }
 

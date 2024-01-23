@@ -36,16 +36,18 @@ public class PreferenceTabCompleter implements TabCompleter {
         }
         if (args.length == 2 && !args[0].equals("list")) {
             ArrayList<VoreType> preferences = PlayerUtil.getPreferences((Player)sender);
-            if (args[1].equals("add")) {
+            if (args[0].equals("add")) {
                 for (VoreType type : VoreType.values()) {
                     if (!preferences.contains(type)) {
                         list.add(type.toString());
                     }
                 }
             }
-            if (args[1].equals("remove")) {
+            else if (args[0].equals("remove")) {
                 for (VoreType type : preferences) {
-                    list.add(type.toString());
+                    if (type.toString().startsWith(args[1])) {
+                        list.add(type.toString());
+                    }
                 }
             }
         }

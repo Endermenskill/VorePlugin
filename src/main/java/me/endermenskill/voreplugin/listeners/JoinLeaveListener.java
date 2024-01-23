@@ -1,7 +1,6 @@
 package me.endermenskill.voreplugin.listeners;
 
 import me.endermenskill.voreplugin.Settings;
-import me.endermenskill.voreplugin.gui.GUIUtil;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreManager;

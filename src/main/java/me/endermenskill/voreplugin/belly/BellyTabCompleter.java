@@ -40,41 +40,48 @@ public class BellyTabCompleter implements TabCompleter {
                 String[] values = {"swalow_message", "digest_start_message", "digest_message",
                         "release_message", "vore_type", "acid_strength", "ambient_effect", "delete"};
 
-
                 for (String value : values) {
-                    if
+                    if (value.startsWith(args[1])) {
+                        list.add(value);
+                    }
                 }
-                list.add("swallow_message");
-                list.add("digest_start_message");
-                list.add("digest_message");
-                list.add("release_message");
-                list.add("vore_type");
-                list.add("acid_strength");
-                list.add("ambient_effect");
-                list.add("delete");
             }
 
             case 3 -> {
                 switch (args[1]) {
                     case "vore_type" -> {
                         for (VoreType type : VoreType.values()) {
-                            list.add(type.toString());
+                            if (type.toString().startsWith(args[2])) {
+                                list.add(type.toString());
+                            }
                         }
                     }
 
                     case "ambient_effect" -> {
                         for (PotionEffectType effect : PotionEffectType.values()) {
-                            list.add(effect.getName().toLowerCase());
+                            if (effect.toString().startsWith(args[2])) {
+                                list.add(effect.getName().toLowerCase());
+                            }
                         }
                     }
 
                     case "acid_strength" -> {
-                        list.add("1");
-                        list.add("2");
-                        list.add("3");
+                        String[] values = {"1", "2", "3"};
+
+                        for (String value : values) {
+                            if (value.startsWith(args[2])) {
+                                list.add(value);
+                            }
+                        }
                     }
 
-                    case "delete" -> list.addAll(getBellies(p));
+                    case "delete" -> {
+                        for (String belly : getBellies(p)) {
+                            if (belly.startsWith(args[2])) {
+                                list.add(belly);
+                            }
+                        }
+                    }
                 }
             }
         }

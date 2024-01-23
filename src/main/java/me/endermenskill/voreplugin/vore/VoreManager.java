@@ -129,7 +129,7 @@ public class VoreManager {
      */
     public static Belly getBelly(Player p, String name) {
         for (Belly belly : getBellies(p)) {
-            if (belly.name.equals(name)) {
+            if (belly.getName().equals(name)) {
                 return belly;
             }
         }
@@ -148,7 +148,7 @@ public class VoreManager {
 
         for (String key : bellies.getKeys(false)) {
             String bellyName = bellies.getString(key + ".name");
-            if (bellyName != null && bellyName.equals(belly.name)) {
+            if (bellyName != null && bellyName.equals(belly.getName())) {
                 bellies.set(key, null);
                 PlayerUtil.savePlayerFile(p, playerFile);
                 return;

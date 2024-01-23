@@ -47,7 +47,7 @@ public class Belly {
         this.data = data;
     }
 
-    void setDefaults() {
+    public void setDefaults() {
         this.setType(VoreType.ORAL);
         this.setSwallowMessage("You have been swallowed by <pred>.");
         this.setDigestInitMessage("<pred> starts to digest you, their belly grumbling eagerly.");
