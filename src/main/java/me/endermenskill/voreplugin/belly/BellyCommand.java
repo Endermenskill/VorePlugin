@@ -104,7 +104,7 @@ public class BellyCommand implements CommandExecutor {
         ArrayList<String> namesSet = new ArrayList<>();
 
         for (Belly belly : bellies) {
-            namesSet.add(belly.name);
+            namesSet.add(belly.getName());
         }
 
         return namesSet;
@@ -119,7 +119,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setMessage(Player p, Belly belly, String message) {
         belly.setSwallowMessage(message);
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's swallow message to \"" + belly.swallowMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's swallow message to \"" + belly.getSwallowMessage() + "\".");
         return true;
     }
 
@@ -132,7 +132,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setDigestMessage(Player p, Belly belly, String message) {
         belly.setDigestMessage(message);
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's digest message to \"" + belly.digestMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's digest message to \"" + belly.getDigestMessage() + "\".");
         return true;
     }
 
@@ -145,7 +145,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setDigestInitMessage(Player p, Belly belly, String message) {
         belly.setDigestInitMessage(message);
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's digestion start message to \"" + belly.digestInitMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's digestion start message to \"" + belly.getDigestInitMessage() + "\".");
         return true;
     }
 
@@ -158,7 +158,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setReleaseMessage(Player p, Belly belly, String message) {
         belly.setReleaseMessage(message);
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's release message to \"" + belly.releaseMessage + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's release message to \"" + belly.getReleaseMessage() + "\".");
         return true;
     }
 
@@ -178,7 +178,7 @@ public class BellyCommand implements CommandExecutor {
             p.sendMessage(Settings.msgPrefix + " §c\"" + type + "\" is not a valid vore type. Available types are " + Arrays.asList(VoreType.values()));
             return true;
         }
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's type to \"" + belly.type + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's type to \"" + belly.getType().toString() + "\".");
 
         return true;
     }
@@ -197,7 +197,7 @@ public class BellyCommand implements CommandExecutor {
         }
 
         belly.setAcidStrength(strength);
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's acid strength to \"" + belly.acidStrength + "\".");
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's acid strength to \"" + belly.getAcidStrength() + "\".");
         return true;
     }
 
@@ -216,8 +216,8 @@ public class BellyCommand implements CommandExecutor {
             return true;
         }
 
-        belly.setBellyEffect(effect.getName());
-        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.name + "\" 's ambient effect to \"" + belly.bellyEffect + "\".");
+        belly.setBellyEffect(effect);
+        p.sendMessage(Settings.msgPrefix + " §aSuccessfully set \"" + belly.getName() + "\" 's ambient effect to \"" + belly.getBellyEffect().toString() + "\".");
         return true;
     }
 
@@ -233,9 +233,9 @@ public class BellyCommand implements CommandExecutor {
             return true;
         }
 
-        p.sendMessage(Settings.msgPrefix + " §eDeleting belly \"" + belly.name + "\"...");
+        p.sendMessage(Settings.msgPrefix + " §eDeleting belly \"" + belly.getName() + "\"...");
         VoreManager.deleteBelly(belly);
-        p.sendMessage(Settings.msgPrefix + " §aDeleted belly \"" + belly.name + "\"");
+        p.sendMessage(Settings.msgPrefix + " §aDeleted belly \"" + belly.getName() + "\"");
         return true;
     }
 }

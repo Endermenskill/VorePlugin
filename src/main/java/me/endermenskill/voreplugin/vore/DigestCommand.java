@@ -74,9 +74,9 @@ public class DigestCommand implements CommandExecutor {
             target.addPotionEffect(digest);
             p.addPotionEffect(saturate);
 
-            p.sendMessage(Settings.msgPrefix + belly.getDigestInitMessage(target));
+            p.sendMessage(Settings.msgPrefix + belly.getDigestInitMessage());
             p.sendMessage(Settings.msgPrefix + " §cDigesting " + target.getDisplayName());
-            target.sendMessage(belly.getDigestInitMessage(target));
+            target.sendMessage(belly.getDigestInitMessage());
 
             VoreStats.incrementPreyDigested(p);
             VoreStats.incrementTimesDigested(target);

@@ -33,7 +33,7 @@ public class DigestAndReformListener implements Listener {
         }
 
         e.setDeathMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
-        prey.sendMessage(belly.getDigestMessage(prey));
+        prey.sendMessage(belly.getDigestMessage());
 
         GameMode previousGameMode = prey.getPreviousGameMode();
         prey.setGameMode((previousGameMode != null) ? previousGameMode : GameMode.SURVIVAL);

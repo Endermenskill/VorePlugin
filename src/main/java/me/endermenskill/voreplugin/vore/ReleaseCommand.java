@@ -70,7 +70,7 @@ public class ReleaseCommand implements CommandExecutor{
             Belly belly = VoreManager.voredPlayers.get(targetID);
             Location release = p.getLocation();
 
-            PotionEffectType bellyEffectType = PotionEffectType.getByName(belly.bellyEffect);
+            PotionEffectType bellyEffectType = belly.getBellyEffect();
             if (bellyEffectType == null) bellyEffectType = PotionEffectType.SLOW;
             target.removePotionEffect(bellyEffectType);
 
@@ -82,7 +82,7 @@ public class ReleaseCommand implements CommandExecutor{
             }
 
             p.sendMessage(Settings.msgPrefix + " §a" + target.getDisplayName() + " has been freed from your belly. For now at least.");
-            target.sendMessage(belly.getReleaseMessage(target));
+            target.sendMessage(belly.getReleaseMessage());
         }
         return true;
     }

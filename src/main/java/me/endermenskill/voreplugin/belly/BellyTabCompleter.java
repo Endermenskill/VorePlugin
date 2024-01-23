@@ -37,6 +37,13 @@ public class BellyTabCompleter implements TabCompleter {
             case 1 -> list.addAll(getBellies(p));
 
             case 2 -> {
+                String[] values = {"swalow_message", "digest_start_message", "digest_message",
+                        "release_message", "vore_type", "acid_strength", "ambient_effect", "delete"};
+
+
+                for (String value : values) {
+                    if
+                }
                 list.add("swallow_message");
                 list.add("digest_start_message");
                 list.add("digest_message");
@@ -84,7 +91,7 @@ public class BellyTabCompleter implements TabCompleter {
 
         ArrayList<String> bellyNames = new ArrayList<>();
         for (Belly belly : bellies) {
-            bellyNames.add(belly.name);
+            bellyNames.add(belly.getName());
         }
 
         return bellyNames;

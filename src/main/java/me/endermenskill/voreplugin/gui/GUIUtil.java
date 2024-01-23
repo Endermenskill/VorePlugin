@@ -4,6 +4,7 @@ import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,14 +30,14 @@ public class GUIUtil {
 
         assert meta != null;
 
-        meta.setDisplayName("§d§l" + belly.name);
+        meta.setDisplayName("§d§l" + belly.getName());
 
         List<String> lore = new ArrayList<>();
 
         int swallowedPrey = 0;
         List<String> preyNames = new ArrayList<>();
         for (Player prey : VoreManager.getPrey(belly.getOwner())) {
-            if (VoreManager.voredPlayers.get(prey.getUniqueId()).name.equals(belly.name)) {
+            if (VoreManager.voredPlayers.get(prey.getUniqueId()).getName().equals(belly.getName())) {
                 swallowedPrey++;
                 preyNames.add("§8" + prey.getDisplayName());
             }
@@ -44,7 +45,7 @@ public class GUIUtil {
         lore.add("§8Swallowed prey: " + swallowedPrey);
         lore.addAll(preyNames);
 
-        meta.setCustomModelData(getVoreTypeModelData(belly.type));
+        meta.setCustomModelData(getVoreTypeModelData(belly.getType()));
         meta.setLore(lore);
         item.setItemMeta(meta);
 
@@ -82,42 +83,43 @@ public class GUIUtil {
         switch (data) {
             case "name" -> {
                 meta.setDisplayName("§9Belly name:");
-                lore.add("§d" + belly.name);
+                lore.add("§d" + belly.getName());
             }
             case "location" -> {
                 meta.setDisplayName("§dBelly Location:");
-                lore.add("§9World: §a" + belly.location.getWorld().getName());
-                lore.add("§9X: §a" + belly.location.getX());
-                lore.add("§9Y: §a" + belly.location.getY());
-                lore.add("§9Z: §a" + belly.location.getZ());
+                Location bellyLocation = belly.getLocation();
+                lore.add("§9World: §a" + bellyLocation.getWorld().getName());
+                lore.add("§9X: §a" + bellyLocation.getX());
+                lore.add("§9Y: §a" + bellyLocation.getY());
+                lore.add("§9Z: §a" + bellyLocation.getZ());
             }
             case "type" -> {
                 meta.setDisplayName("§dVore type:");
-                lore.add("§9" + belly.type.toString());
+                lore.add("§9" + belly.getType().toString());
             }
             case "swallowMessage" -> {
                 meta.setDisplayName("§dSwallow message:");
-                lore.add("§a" + belly.swallowMessage);
+                lore.add("§a" + belly.getSwallowMessage());
             }
             case "digestInitMessage" -> {
                 meta.setDisplayName("§dDigestion start message:");
-                lore.add("§a" + belly.digestInitMessage);
+                lore.add("§a" + belly.getDigestInitMessage());
             }
             case "digestMessage" -> {
                 meta.setDisplayName("§dDigestion message");
-                lore.add("§a" + belly.digestMessage);
+                lore.add("§a" + belly.getDigestMessage());
             }
             case "releaseMessage" -> {
                 meta.setDisplayName("§dRelease message:");
-                lore.add("§a" + belly.releaseMessage);
+                lore.add("§a" + belly.getReleaseMessage());
             }
             case "bellyEffect" -> {
                 meta.setDisplayName("§dAmbient effect:");
-                lore.add("§a" + belly.bellyEffect);
+                lore.add("§a" + belly.getBellyEffect());
             }
             case "acidStrength" -> {
                 meta.setDisplayName("§dAcid strength:");
-                lore.add("§a" + belly.acidStrength);
+                lore.add("§a" + belly.getAcidStrength());
             }
             case "prey" -> {
                 meta.setDisplayName("§dCurrently vored prey:");

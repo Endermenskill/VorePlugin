@@ -127,8 +127,8 @@ public class BellySelectGui implements Listener {
         PotionEffect bellyEffect = new PotionEffect(bellyEffectType, 2_147_483_647, 1, false, false, false);
         prey.addPotionEffect(bellyEffect);
 
-        prey.sendMessage(belly.getSwallowMessage(prey));
-        pred.sendMessage(belly.getSwallowMessage(prey));
+        prey.sendMessage(belly.getSwallowMessage());
+        pred.sendMessage(belly.getSwallowMessage());
         prey.setGameMode(GameMode.ADVENTURE);
 
         VoreStats.incrementPreyEaten(pred);
