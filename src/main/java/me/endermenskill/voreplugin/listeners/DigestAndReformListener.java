@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.listeners;
 
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
@@ -33,11 +34,18 @@ public class DigestAndReformListener implements Listener {
         }
 
         e.setDeathMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
-        prey.sendMessage(belly.getDigestMessage());
+
+        if (Settings.papi) {
+            //papi parse digestion message
+        }
+        else {
+            prey.sendMessage(belly.getDigestMessage());
+        }
 
         GameMode previousGameMode = prey.getPreviousGameMode();
         prey.setGameMode((previousGameMode != null) ? previousGameMode : GameMode.SURVIVAL);
         e.getDrops().clear();
+
         Location respawn = (prey.getBedSpawnLocation() != null) ? prey.getBedSpawnLocation() : belly.getOwner().getLocation();
         prey.teleport(respawn);
 
@@ -59,6 +67,5 @@ public class DigestAndReformListener implements Listener {
         e.setRespawnLocation(respawn);
         p.sendTitle(ChatColor.GREEN + "You have been reformed!", "Your items have been returned from your predator's belly.", 0, 60, 20);
         VoreManager.digestedPlayers.remove(p.getUniqueId());
-
     }
 }

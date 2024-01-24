@@ -157,7 +157,7 @@ public class VoreManager {
     }
 
     /**
-     * Forecefully releases a player from their predator's belly, if they are in one.
+     * Forcefully releases a player from their predator's belly, if they are in one.
      * @param p Player to release
      */
     public static void emergencyRelease(Player p) {

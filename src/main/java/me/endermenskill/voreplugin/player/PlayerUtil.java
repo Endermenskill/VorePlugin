@@ -69,6 +69,8 @@ public class PlayerUtil {
                     ymlConfig.set("stats." + stat.toString(), 0);
                 }
 
+                ymlConfig.set("preferences", "[" + VoreType.OTHER + "]");
+
                 ymlConfig.save(playerFile);
 
                 p.sendMessage(Settings.msgPrefix + " It seems like it's your first time playing. Be sure to set your vore rank with §a/setrank <rank>");

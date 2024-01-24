@@ -6,7 +6,8 @@ public enum VoreType {
     COCK(2),
     UNBIRTH(3),
     BREAST(4),
-    TAIL(5);
+    TAIL(5),
+    OTHER(99);
 
     private final int modelIndex;
 
