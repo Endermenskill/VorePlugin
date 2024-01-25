@@ -39,7 +39,7 @@ public class SetBellyCommand implements CommandExecutor {
             return true;
         }
 
-        if (VoreManager.getPrey(p).size() > 0) {
+        if (!VoreManager.getPrey(p).isEmpty()) {
             p.sendMessage(Settings.msgPrefix + " §cCannot set bellies while having swallowed prey.");
         }
 

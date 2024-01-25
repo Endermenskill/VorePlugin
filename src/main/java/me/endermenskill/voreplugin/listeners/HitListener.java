@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -50,5 +51,16 @@ public class HitListener implements Listener {
         vorePlayers.put(predator.getUniqueId(), prey.getUniqueId());
 
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public static void onTakeDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
+        Player p = (Player)e.getEntity();
+        if (VoreManager.isVored(p) && e.getCause() != EntityDamageEvent.DamageCause.WITHER) {
+            e.setCancelled(true);
+        }
     }
 }

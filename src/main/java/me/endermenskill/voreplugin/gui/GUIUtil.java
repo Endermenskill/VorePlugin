@@ -34,15 +34,11 @@ public class GUIUtil {
 
         List<String> lore = new ArrayList<>();
 
-        int swallowedPrey = 0;
         List<String> preyNames = new ArrayList<>();
-        for (Player prey : VoreManager.getPrey(belly.getOwner())) {
-            if (VoreManager.voredPlayers.get(prey.getUniqueId()).getName().equals(belly.getName())) {
-                swallowedPrey++;
-                preyNames.add("§8" + prey.getDisplayName());
-            }
+        for (Player prey : VoreManager.getPrey(belly)) {
+            preyNames.add("§8" + prey.getDisplayName());
         }
-        lore.add("§8Swallowed prey: " + swallowedPrey);
+        lore.add("§8Swallowed prey: " + preyNames.size());
         lore.addAll(preyNames);
 
         meta.setCustomModelData(getVoreTypeModelData(belly.getType()));

@@ -70,6 +70,7 @@ public class PlayerUtil {
                 }
 
                 ymlConfig.set("preferences", "[" + VoreType.OTHER + "]");
+                ymlConfig.set("autoReform", true);
 
                 ymlConfig.save(playerFile);
 

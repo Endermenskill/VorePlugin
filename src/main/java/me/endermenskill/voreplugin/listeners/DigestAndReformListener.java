@@ -4,36 +4,46 @@ import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class DigestAndReformListener implements Listener {
     /**
-     * Listener for PlayerDeathEvent - Only reacts if death was caused by digestion.
+     * Listener for EntityDamageEvent - Only reacts if the affected entity dies to digestion.
      * @param e PlayerDeathEvent
      */
     @EventHandler
-    public void onDeath(PlayerDeathEvent e) {
-        Player prey = e.getEntity();
-        Player pred = VoreManager.getPredator(prey);
-
-        if (!VoreManager.voredPlayers.containsKey(prey.getUniqueId())) {
+    public void onDeath(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) {
             return;
         }
 
+        Player prey = (Player) e.getEntity();
+
+        if (!VoreManager.isVored(prey)) {
+            return;
+        }
+
+        if (prey.getHealth() - e.getFinalDamage() > 0) {
+            return;
+        }
+
+        Player pred = VoreManager.getPredator(prey);
+        assert pred != null;
         Belly belly = VoreManager.voredPlayers.get(prey.getUniqueId());
         VoreManager.voredPlayers.remove(prey.getUniqueId());
         if (belly == null) {
             return;
         }
 
-        e.setDeathMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
+        Bukkit.broadcastMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
 
         if (Settings.papi) {
             //papi parse digestion message
@@ -42,12 +52,9 @@ public class DigestAndReformListener implements Listener {
             prey.sendMessage(belly.getDigestMessage());
         }
 
-        GameMode previousGameMode = prey.getPreviousGameMode();
-        prey.setGameMode((previousGameMode != null) ? previousGameMode : GameMode.SURVIVAL);
-        e.getDrops().clear();
-
-        Location respawn = (prey.getBedSpawnLocation() != null) ? prey.getBedSpawnLocation() : belly.getOwner().getLocation();
-        prey.teleport(respawn);
+        prey.teleport(pred.getLocation());
+        prey.setGameMode(GameMode.SPECTATOR);
+        prey.setSpectatorTarget(pred);
 
         VoreStats.incrementPreyDigested(pred);
         VoreStats.incrementTimesDigested(prey);

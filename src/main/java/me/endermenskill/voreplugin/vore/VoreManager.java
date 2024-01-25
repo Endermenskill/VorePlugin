@@ -32,6 +32,28 @@ public class VoreManager {
         if (voredPlayers.containsKey(p.getUniqueId())) {
             return voredPlayers.get(p.getUniqueId()).getOwner();
         }
+
+        else if (digestedPlayers.containsKey(p.getUniqueId())) {
+            return digestedPlayers.get(p.getUniqueId()).getOwner();
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the belly containing the given player.
+     * @param p Player to check
+     * @return Bely containing the vored player, nul if the player wasn't vored
+     */
+    public static Belly getPredatorBelly(Player p) {
+        if (voredPlayers.containsKey(p.getUniqueId())) {
+            return voredPlayers.get(p.getUniqueId());
+        }
+
+        else if (digestedPlayers.containsKey(p.getUniqueId())) {
+            return digestedPlayers.get(p.getUniqueId());
+        }
+
         return null;
     }
 
@@ -49,7 +71,31 @@ public class VoreManager {
             }
         }
 
+        for (Map.Entry<UUID, Belly> entry : digestedPlayers.entrySet()) {
+            if (entry.getValue().getOwner() == p) {
+                prey.add(Bukkit.getPlayer(entry.getKey()));
+            }
+        }
+
         return prey;
+    }
+
+    /**
+     * Get all prey in a given belly
+     * @param belly Belly to check
+     * @return List of all prey in the given belly
+     */
+    public static ArrayList<Player> getPrey(Belly belly) {
+        ArrayList<Player> preyInBelly = new ArrayList<>();
+
+        ArrayList<Player> allPrey = getPrey(belly.getOwner());
+        for (Player prey : allPrey) {
+            if (getPredatorBelly(prey) == belly) {
+                preyInBelly.add(prey);
+            }
+        }
+
+        return preyInBelly;
     }
 
     /**
@@ -172,5 +218,23 @@ public class VoreManager {
         p.teleport(releaseLocation);
 
         p.sendMessage(Settings.msgPrefix + "Something happened to your predator and you have been forcefully released.");
+    }
+
+    /**
+     * Check if a player is digested
+     * @param p Player to check
+     * @return true if the Player is digested, false otherwise.
+     */
+    public static boolean isDigeted(Player p) {
+        return digestedPlayers.containsKey(p.getUniqueId());
+    }
+
+    /**
+     * Check if a player is vored
+     * @param p Player to check
+     * @return tre if the player is vored, false otherwise
+     */
+    public static boolean isVored(Player p) {
+        return voredPlayers.containsKey(p.getUniqueId());
     }
 }
