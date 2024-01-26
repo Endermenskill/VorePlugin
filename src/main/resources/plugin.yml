@@ -36,6 +36,9 @@ commands:
   version:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command>"
     description: Returns the plugin's version
+  reform:
+    usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <player>"
+    description: Reform yourself or a player you digested
   disposal:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command>"
     description: For the disposal enjoyers ;)

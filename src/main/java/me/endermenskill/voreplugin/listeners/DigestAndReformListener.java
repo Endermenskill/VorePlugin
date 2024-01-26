@@ -4,15 +4,14 @@ import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 public class DigestAndReformListener implements Listener {
     /**
@@ -51,6 +50,13 @@ public class DigestAndReformListener implements Listener {
         else {
             prey.sendMessage(belly.getDigestMessage());
         }
+
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta)skull.getItemMeta();
+        assert meta != null;
+        meta.setOwningPlayer(prey);
+        skull.setItemMeta(meta);
+        pred.getInventory().addItem(skull);
 
         prey.teleport(pred.getLocation());
         prey.setGameMode(GameMode.SPECTATOR);

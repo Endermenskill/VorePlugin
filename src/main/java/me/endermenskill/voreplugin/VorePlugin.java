@@ -1,9 +1,7 @@
 package me.endermenskill.voreplugin;
 
 import me.endermenskill.voreplugin.belly.*;
-import me.endermenskill.voreplugin.listeners.DigestAndReformListener;
-import me.endermenskill.voreplugin.listeners.HitListener;
-import me.endermenskill.voreplugin.listeners.JoinLeaveListener;
+import me.endermenskill.voreplugin.listeners.*;
 import me.endermenskill.voreplugin.player.*;
 import me.endermenskill.voreplugin.stats.VoreStatsCommand;
 import me.endermenskill.voreplugin.stats.VoreTopCommand;
@@ -78,6 +76,8 @@ public class VorePlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new HitListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new DigestAndReformListener(), getPlugin());
+        Bukkit.getPluginManager().registerEvents(new SpectatorTargetChangeListener(), getPlugin());
+        //Bukkit.getPluginManager().registerEvents(new ChatListener(), getPlugin());
     }
 
     /**
@@ -93,6 +93,8 @@ public class VorePlugin extends JavaPlugin {
         getCommand("vorestats").setExecutor(new VoreStatsCommand());
         getCommand("voretop").setExecutor(new VoreTopCommand());
         getCommand("vore").setExecutor(new VoreCommand());
+        getCommand("reform").setExecutor(new ReformCommand());
+        getCommand("disposal").setExecutor(new DisposalCommand());
         getCommand("test").setExecutor(new TestCommand()); //->Super secret testing command
     }
 
@@ -108,5 +110,6 @@ public class VorePlugin extends JavaPlugin {
         getCommand("preference").setTabCompleter(new PreferenceTabCompleter());
         getCommand("voretop").setTabCompleter(new VoreTopTabCompleter());
         getCommand("vore").setTabCompleter(new VoreTabCompleter());
+        getCommand("reform").setTabCompleter(new ReformTabCompleter());
     }
 }
