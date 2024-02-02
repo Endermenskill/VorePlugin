@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.stats;
 
+import me.endermenskill.voreplugin.VorePlugin;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -169,7 +170,7 @@ public class VoreStats {
      */
     public static HashMap<Player, Integer> getAllTimesEaten() {
         HashMap<Player, Integer> allTimesEaten = new HashMap<>();
-        File dataFolder = Bukkit.getPluginManager().getPlugin("VorePlugin").getDataFolder();
+        File dataFolder = VorePlugin.getPlugin().getDataFolder();
         File playersFolder = new File(dataFolder, "players");
 
         File[] playerFiles = playersFolder.listFiles();
@@ -190,7 +191,7 @@ public class VoreStats {
      */
     public static HashMap<Player, Integer> getAllTimesDigested() {
         HashMap<Player, Integer> allTimesDigested = new HashMap<>();
-        File dataFolder = Bukkit.getPluginManager().getPlugin("VorePlugin").getDataFolder();
+        File dataFolder = VorePlugin.getPlugin().getDataFolder();
         File playersFolder = new File(dataFolder, "players");
 
         File[] playerFiles = playersFolder.listFiles();
@@ -211,7 +212,7 @@ public class VoreStats {
      */
     public static HashMap<Player, Integer> getAllPreyEaten() {
         HashMap<Player, Integer> allPreyEaten = new HashMap<>();
-        File dataFolder = Bukkit.getPluginManager().getPlugin("VorePlugin").getDataFolder();
+        File dataFolder = VorePlugin.getPlugin().getDataFolder();
         File playersFolder = new File(dataFolder, "players");
 
         File[] playerFiles = playersFolder.listFiles();
@@ -232,7 +233,7 @@ public class VoreStats {
      */
     public static HashMap<Player, Integer> getAllPreyDigested() {
         HashMap<Player, Integer> allPreyDigested = new HashMap<>();
-        File dataFolder = Bukkit.getPluginManager().getPlugin("VorePlugin").getDataFolder();
+        File dataFolder = VorePlugin.getPlugin().getDataFolder();
         File playersFolder = new File(dataFolder, "players");
 
         File[] playerFiles = playersFolder.listFiles();

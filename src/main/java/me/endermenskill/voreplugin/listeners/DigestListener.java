@@ -9,11 +9,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class DigestAndReformListener implements Listener {
+public class DigestListener implements Listener {
     /**
      * Listener for EntityDamageEvent - Only reacts if the affected entity dies to digestion.
      * @param e PlayerDeathEvent
@@ -45,7 +44,8 @@ public class DigestAndReformListener implements Listener {
         Bukkit.broadcastMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
 
         if (Settings.papi) {
-            //papi parse digestion message
+            //papi parse digestion message?
+            prey.sendMessage(belly.getDigestMessage());
         }
         else {
             prey.sendMessage(belly.getDigestMessage());
@@ -65,20 +65,5 @@ public class DigestAndReformListener implements Listener {
         VoreStats.incrementPreyDigested(pred);
         VoreStats.incrementTimesDigested(prey);
         VoreManager.digestedPlayers.put(prey.getUniqueId(), belly);
-    }
-
-    @EventHandler
-    public void onRespawn(PlayerRespawnEvent e) {
-        Player p = e.getPlayer();
-
-        if (!VoreManager.digestedPlayers.containsKey(p.getUniqueId())) {
-            return;
-        }
-
-        Location respawn = (p.getBedSpawnLocation() == p.getLocation().getWorld().getSpawnLocation()) ? VoreManager.digestedPlayers.get(p.getUniqueId()).getOwner().getLocation() : p.getBedSpawnLocation();
-        assert respawn != null;
-        e.setRespawnLocation(respawn);
-        p.sendTitle(ChatColor.GREEN + "You have been reformed!", "Your items have been returned from your predator's belly.", 0, 60, 20);
-        VoreManager.digestedPlayers.remove(p.getUniqueId());
     }
 }

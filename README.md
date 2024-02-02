@@ -2,9 +2,9 @@
 VorePlugin for minecraft 1.19.2
 
 This plugin aims to add vore to the world of Minecraft in a vanilla-friendly way. If you do not know what vore is or dislike it leave now.
-Currently it is pretty bare bones and buggy but I am working hard on fixing everything with my limited skills. :)
+Currently, it is pretty bare bones and buggy, but I am working hard on fixing everything with my limited skills. :)
 
-If you want more detailed information or wish to talk with me you can join me on [Discord](https://discord.gg/2hyrR5nzTA)!
+If you want more detailed information or wish to talk with me, you can join me on ~~[Discord](https://discord.gg/2hyrR5nzTA)~~ (dead link, will fix later)!
 
 ## Features
 

@@ -143,8 +143,11 @@ public class PlayerUtil {
         assert bellies != null;
 
         for (String key : bellies.getKeys(false)) {
-            if (bellies.getConfigurationSection(key).getString("name") == null) {
-                return key;
+            ConfigurationSection section = bellies.getConfigurationSection(key);
+            if (section != null) {
+                if (section.getString("name") == null) {
+                    return key;
+                }
             }
         }
 

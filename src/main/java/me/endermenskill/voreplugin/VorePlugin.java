@@ -1,6 +1,7 @@
 package me.endermenskill.voreplugin;
 
 import me.endermenskill.voreplugin.belly.*;
+import me.endermenskill.voreplugin.gui.GUIUtil;
 import me.endermenskill.voreplugin.listeners.*;
 import me.endermenskill.voreplugin.player.*;
 import me.endermenskill.voreplugin.stats.VoreStatsCommand;
@@ -9,7 +10,6 @@ import me.endermenskill.voreplugin.stats.VoreTopTabCompleter;
 import me.endermenskill.voreplugin.vore.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -73,9 +73,10 @@ public class VorePlugin extends JavaPlugin {
      * Private method to register the VorePlugin's listeners
      */
     private void registerListeners() {
+        GUIUtil.registerGuiListeners();
         Bukkit.getPluginManager().registerEvents(new HitListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new JoinLeaveListener(), getPlugin());
-        Bukkit.getPluginManager().registerEvents(new DigestAndReformListener(), getPlugin());
+        Bukkit.getPluginManager().registerEvents(new DigestListener(), getPlugin());
         Bukkit.getPluginManager().registerEvents(new SpectatorTargetChangeListener(), getPlugin());
         //Bukkit.getPluginManager().registerEvents(new ChatListener(), getPlugin());
     }

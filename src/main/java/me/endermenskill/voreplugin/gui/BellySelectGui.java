@@ -52,6 +52,10 @@ public class BellySelectGui implements Listener {
         p.openInventory(inv);
     }
 
+    /**
+     * Handle logic for clicks
+     * @param e InventoryClickEvent
+     */
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         String title = e.getView().getTitle();
@@ -74,9 +78,14 @@ public class BellySelectGui implements Listener {
         }
     }
 
+    /**
+     * Logic for clicks when the GUI is used in the context of vore
+     * @param e InventoryClickEvent
+     */
     private void onVore(InventoryClickEvent e) {
         Player pred = (Player)e.getWhoClicked();
         ItemStack item = e.getCurrentItem();
+        assert item != null;
 
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
@@ -135,6 +144,10 @@ public class BellySelectGui implements Listener {
         VoreStats.incrementTimesEaten(prey);
     }
 
+    /**
+     * Logic for clicks when the GUI is used for inspecting the bellies
+     * @param e InventoryClickEvent
+     */
     private void onInspect(InventoryClickEvent e) {
         ItemStack item = e.getCurrentItem();
         assert item != null;
@@ -142,6 +155,10 @@ public class BellySelectGui implements Listener {
         ItemMeta meta = item.getItemMeta();
         assert meta != null;
 
+        Player p = (Player) e.getWhoClicked();
         String bellyName = meta.getDisplayName().replace("§d§l", "");
+
+        e.getView().close();
+        BellyInfoGui.create(p, bellyName);
     }
 }

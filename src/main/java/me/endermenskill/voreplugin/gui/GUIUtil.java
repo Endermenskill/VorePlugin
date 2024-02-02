@@ -1,14 +1,19 @@
 package me.endermenskill.voreplugin.gui;
 
 import me.endermenskill.voreplugin.Settings;
+import me.endermenskill.voreplugin.VorePlugin;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import se.eris.notnull.NotNull;
 
 import java.util.ArrayList;
@@ -19,8 +24,13 @@ import java.util.List;
  */
 public class GUIUtil {
 
+    public static void registerGuiListeners() {
+        Bukkit.getPluginManager().registerEvents(new BellyInfoGui(), VorePlugin.getPlugin());
+        Bukkit.getPluginManager().registerEvents(new BellySelectGui(), VorePlugin.getPlugin());
+    }
+
     /**
-     * Function to get an ItemStack representing a belly
+     * Method to get an ItemStack representing a belly
      * @param belly Belly to itemise
      * @return ItemStack representing the given belly
      */
@@ -41,7 +51,12 @@ public class GUIUtil {
         lore.add("§8Swallowed prey: " + preyNames.size());
         lore.addAll(preyNames);
 
-        meta.setCustomModelData(getVoreTypeModelData(belly.getType()));
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        NamespacedKey key = NamespacedKey.fromString("CustomModelData");
+        assert key != null;
+        container.set(key, PersistentDataType.STRING, "voreType.ORAL");
+
+        //meta.setCustomModelData(getVoreTypeModelData(belly.getType()));
         meta.setLore(lore);
         item.setItemMeta(meta);
 
@@ -78,11 +93,11 @@ public class GUIUtil {
 
         switch (data) {
             case "name" -> {
-                meta.setDisplayName("§9Belly name:");
-                lore.add("§d" + belly.getName());
+                meta.setDisplayName("§dname:");
+                lore.add("§a" + belly.getName());
             }
             case "location" -> {
-                meta.setDisplayName("§dBelly Location:");
+                meta.setDisplayName("§dlocation:");
                 Location bellyLocation = belly.getLocation();
                 lore.add("§9World: §a" + bellyLocation.getWorld().getName());
                 lore.add("§9X: §a" + bellyLocation.getX());
@@ -90,31 +105,31 @@ public class GUIUtil {
                 lore.add("§9Z: §a" + bellyLocation.getZ());
             }
             case "type" -> {
-                meta.setDisplayName("§dVore type:");
+                meta.setDisplayName("§dtype:");
                 lore.add("§9" + belly.getType().toString());
             }
             case "swallowMessage" -> {
-                meta.setDisplayName("§dSwallow message:");
+                meta.setDisplayName("§dswallowMessage:");
                 lore.add("§a" + belly.getSwallowMessage());
             }
             case "digestInitMessage" -> {
-                meta.setDisplayName("§dDigestion start message:");
+                meta.setDisplayName("§ddigestionStartMessage:");
                 lore.add("§a" + belly.getDigestInitMessage());
             }
             case "digestMessage" -> {
-                meta.setDisplayName("§dDigestion message");
+                meta.setDisplayName("§ddigestionMessage");
                 lore.add("§a" + belly.getDigestMessage());
             }
             case "releaseMessage" -> {
-                meta.setDisplayName("§dRelease message:");
+                meta.setDisplayName("§dreleaseMessage:");
                 lore.add("§a" + belly.getReleaseMessage());
             }
             case "bellyEffect" -> {
-                meta.setDisplayName("§dAmbient effect:");
+                meta.setDisplayName("§dambientEffect:");
                 lore.add("§a" + belly.getBellyEffect());
             }
             case "acidStrength" -> {
-                meta.setDisplayName("§dAcid strength:");
+                meta.setDisplayName("§dacidStrength:");
                 lore.add("§a" + belly.getAcidStrength());
             }
             case "prey" -> {
@@ -124,6 +139,11 @@ public class GUIUtil {
                 }
             }
         }
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        NamespacedKey key = NamespacedKey.fromString("bellyName");
+        assert key != null;
+        container.set(key, PersistentDataType.STRING, belly.getName());
 
         meta.setLore(lore);
         item.setItemMeta(meta);
