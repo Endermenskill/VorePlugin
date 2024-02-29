@@ -6,7 +6,6 @@ import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.Player;
@@ -19,8 +18,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public class BellyInfoGui implements Listener, InputDialogue {
 
@@ -172,10 +169,7 @@ public class BellyInfoGui implements Listener, InputDialogue {
             return;
         }
 
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        NamespacedKey key = NamespacedKey.fromString("bellyName");
-        assert key != null;
-        String bellyName = container.get(key, PersistentDataType.STRING);
+        String bellyName = e.getView().getTitle().replaceAll("Information for belly ", "").replaceAll("\"", "");
 
         String dataType = meta.getDisplayName().replaceAll("§d", "").replaceAll(":", "");
 

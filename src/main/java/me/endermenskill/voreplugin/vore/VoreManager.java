@@ -161,7 +161,11 @@ public class VoreManager {
         assert bellySection != null;
 
         for (String key : bellySection.getKeys(false)) {
-            bellies.add(new Belly(bellySection.getConfigurationSection(key)));
+            ConfigurationSection config = bellySection.getConfigurationSection(key);
+            assert config != null;
+            if (config.getKeys(false).size() != 0) {
+                bellies.add(new Belly(config));
+            }
         }
 
         return bellies;

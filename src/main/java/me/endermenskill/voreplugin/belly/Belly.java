@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreType;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,7 +19,7 @@ import java.util.UUID;
  * Class representing a belly
  */
 public class Belly {
-    private UUID owner = null;
+    private UUID owner;
     private final ConfigurationSection data;
 
 
@@ -27,18 +28,20 @@ public class Belly {
      * @param player Player who you want a belly for
      */
     public Belly (Player player) {
-        this.setOwner(player);
+        this.owner = player.getUniqueId();
 
         String sectionName = PlayerUtil.getEmptyBellySection(player);
         FileConfiguration playerConfig = PlayerUtil.getPlayerFile(player);
         this.data = playerConfig.getConfigurationSection("bellies." + sectionName);
 
+        this.setOwner(player);
         this.setLocation(player.getLocation());
         this.setDefaults();
     }
 
     /**
      * Load the belly data from a ConfigurationSection into a Belly object
+     * the provided configuration section must contain valid belly data because I am too lazy and stupid to prevent it from imploding.
      * @param data ConfigurationSection containing valid belly data to load
      */
     public Belly (ConfigurationSection data) {
@@ -59,6 +62,13 @@ public class Belly {
         this.setAcidStrength((byte) 1);
     }
 
+    public void saveBelly() {
+        FileConfiguration playerFile = PlayerUtil.getPlayerFile(this.getOwner());
+        String sectionName = this.data.getName();
+        playerFile.set("bellies." + sectionName, this.data);
+        PlayerUtil.savePlayerFile(this.getOwner(), playerFile);
+    }
+
     /**
      * Set the belly's owner
      * @param owner new owner
@@ -67,7 +77,7 @@ public class Belly {
         this.owner = owner.getUniqueId();
         this.data.set("owner", owner.getUniqueId().toString());
 
-        PlayerUtil.savePlayerFile(owner, PlayerUtil.getPlayerFile(owner));
+        this.saveBelly();
     }
 
     /**
@@ -77,7 +87,7 @@ public class Belly {
     public void setName(String name) {
         this.data.set("name", name);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();;
     }
 
     /**
@@ -95,7 +105,7 @@ public class Belly {
         this.data.set("yaw", location.getYaw());
         this.data.set("pitch", location.getPitch());
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -105,7 +115,7 @@ public class Belly {
     public void setType(VoreType type) {
         this.data.set("type", type.toString());
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -115,7 +125,7 @@ public class Belly {
     public void setSwallowMessage(String message) {
         this.data.set("swallowMessage", message);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -125,7 +135,7 @@ public class Belly {
     public void setDigestInitMessage(String message) {
         this.data.set("digestInitMessage", message);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -135,7 +145,7 @@ public class Belly {
     public void setDigestMessage(String message) {
         this.data.set("digestMessage", message);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -145,7 +155,7 @@ public class Belly {
     public void setReleaseMessage(String message) {
         this.data.set("releaseMessage", message);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -153,9 +163,9 @@ public class Belly {
      * @param effect new effect
      */
     public void setBellyEffect(PotionEffectType effect) {
-        this.data.set("bellyEffect", effect.toString());
+        this.data.set("bellyEffect", effect.getName());
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**
@@ -168,7 +178,7 @@ public class Belly {
         }
         this.data.set("acidStrength", strength);
 
-        PlayerUtil.savePlayerFile(this.getOwner(), PlayerUtil.getPlayerFile(this.getOwner()));
+        this.saveBelly();
     }
 
     /**

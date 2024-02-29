@@ -5,7 +5,6 @@ import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,8 +33,12 @@ public class SetBellyCommand implements CommandExecutor {
 
         Player p = (Player) sender;
 
+        if (PlayerUtil.getPlayerRank(p) == PlayerRank.UNSET) {
+            p.sendMessage(Settings.msgPrefix + "§cPlease set your vore rank before creating bellies.");
+        }
+
         if (PlayerUtil.getPlayerRank(p) == PlayerRank.PREY) {
-            sender.sendMessage(Settings.msgPrefix + "§cPrey can't set bellies.");
+            p.sendMessage(Settings.msgPrefix + "§cPrey can't set bellies.");
             return true;
         }
 
@@ -65,11 +68,7 @@ public class SetBellyCommand implements CommandExecutor {
         }
 
         Belly belly = new Belly(p);
-        belly.setDefaults();
         belly.setName(args[0]);
-
-        Location loc = p.getLocation();
-        belly.setLocation(loc);
 
         if (args.length >= 2) {
             try {

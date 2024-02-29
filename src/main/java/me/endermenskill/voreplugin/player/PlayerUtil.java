@@ -73,8 +73,6 @@ public class PlayerUtil {
                 ymlConfig.set("autoReform", true);
 
                 ymlConfig.save(playerFile);
-
-                p.sendMessage(Settings.msgPrefix + " It seems like it's your first time playing. Be sure to set your vore rank with §a/setrank <rank>");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -145,7 +143,7 @@ public class PlayerUtil {
         for (String key : bellies.getKeys(false)) {
             ConfigurationSection section = bellies.getConfigurationSection(key);
             if (section != null) {
-                if (section.getString("name") == null) {
+                if (section.getKeys(false).size() == 0) {
                     return key;
                 }
             }

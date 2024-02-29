@@ -20,12 +20,14 @@ public interface InputDialogue extends Listener {
      * @param msg Short message to display in the Book to give guidance on what to enter
      */
     default void createDialogue(Player p, String title, String msg) {
-        ItemStack item = new ItemStack(Material.WRITABLE_BOOK);
+        ItemStack item = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) item.getItemMeta();
         assert meta != null;
 
         meta.setTitle(title);
-        meta.setPage(1, msg + ":\n\n");
+        meta.setAuthor("Your Mother");
+        meta.setGeneration(BookMeta.Generation.TATTERED);
+        meta.addPage(msg);
 
         item.setItemMeta(meta);
         p.openBook(item);

@@ -126,7 +126,7 @@ public class GUIUtil {
             }
             case "bellyEffect" -> {
                 meta.setDisplayName("§dambientEffect:");
-                lore.add("§a" + belly.getBellyEffect());
+                lore.add("§a" + belly.getBellyEffect().getName());
             }
             case "acidStrength" -> {
                 meta.setDisplayName("§dacidStrength:");
@@ -139,11 +139,6 @@ public class GUIUtil {
                 }
             }
         }
-
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        NamespacedKey key = NamespacedKey.fromString("bellyName");
-        assert key != null;
-        container.set(key, PersistentDataType.STRING, belly.getName());
 
         meta.setLore(lore);
         item.setItemMeta(meta);
