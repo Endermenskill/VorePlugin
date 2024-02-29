@@ -1,5 +1,6 @@
 package me.endermenskill.voreplugin.listeners;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.stats.VoreStats;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class DigestListener implements Listener {
+
     /**
      * Listener for EntityDamageEvent - Only reacts if the affected entity dies to digestion.
      * @param e PlayerDeathEvent
@@ -43,13 +45,7 @@ public class DigestListener implements Listener {
 
         Bukkit.broadcastMessage(prey.getDisplayName() + " was digested by " + belly.getOwner().getDisplayName() + ".");
 
-        if (Settings.papi) {
-            //papi parse digestion message?
-            prey.sendMessage(belly.getDigestMessage());
-        }
-        else {
-            prey.sendMessage(belly.getDigestMessage());
-        }
+        prey.sendMessage(belly.getDigestMessage());
 
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta)skull.getItemMeta();

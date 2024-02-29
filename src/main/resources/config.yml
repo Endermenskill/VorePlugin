@@ -4,4 +4,6 @@
 
 #---------- General Configs ----------
 
-#Nothing here yet, gotta yell at me for a config update. :P
+bellyMax: 64
+
+turduckenLimit: 10

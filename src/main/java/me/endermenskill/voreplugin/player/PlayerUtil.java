@@ -2,7 +2,7 @@ package me.endermenskill.voreplugin.player;
 
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.VorePlugin;
-import me.endermenskill.voreplugin.stats.StatTypes;
+import me.endermenskill.voreplugin.stats.StatType;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -65,7 +65,7 @@ public class PlayerUtil {
                 }
 
                 ymlConfig.createSection("stats");
-                for (StatTypes stat : StatTypes.values()) {
+                for (StatType stat : StatType.values()) {
                     ymlConfig.set("stats." + stat.toString(), 0);
                 }
 

@@ -29,20 +29,20 @@ public class VoreStatsCommand implements CommandExecutor {
         }
 
         assert p != null;
-        p.sendMessage(Settings.msgPrefix + " §6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
-        p.sendMessage(Settings.msgPrefix + " §eTimes eaten: §2" + VoreStats.getTimesEaten(p));
-        p.sendMessage(Settings.msgPrefix + " §eTimes digested: §2" + VoreStats.getTimesDigested(p));
-        p.sendMessage(Settings.msgPrefix + " §ePrey eaten: §2" + VoreStats.getPreyEaten(p));
-        p.sendMessage(Settings.msgPrefix + " §ePrey digested: §2" + VoreStats.getPreyDigested(p));
+        p.sendMessage(Settings.msgPrefix + "§6----- Vore stats of §r" + p.getDisplayName() + " §6-----");
+        p.sendMessage(Settings.msgPrefix + "§eTimes eaten: §2" + VoreStats.getTimesEaten(p));
+        p.sendMessage(Settings.msgPrefix + "§eTimes digested: §2" + VoreStats.getTimesDigested(p));
+        p.sendMessage(Settings.msgPrefix + "§ePrey eaten: §2" + VoreStats.getPreyEaten(p));
+        p.sendMessage(Settings.msgPrefix + "§ePrey digested: §2" + VoreStats.getPreyDigested(p));
         p.sendMessage(Settings.msgPrefix);
 
         if (VoreStats.getTimesDigested(p) == 0) {
-            p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
-        } else p.sendMessage(Settings.msgPrefix + " §eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
+            p.sendMessage(Settings.msgPrefix + "§eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + "§eTimes eaten/digested ratio: §2" + VoreStats.getTimesEaten(p) / VoreStats.getTimesDigested(p));
 
         if (VoreStats.getPreyDigested(p) == 0) {
-            p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
-        } else p.sendMessage(Settings.msgPrefix + " §ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
+            p.sendMessage(Settings.msgPrefix + "§ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p));
+        } else p.sendMessage(Settings.msgPrefix + "§ePrey eaten/digested ratio: §2" + VoreStats.getPreyEaten(p) / VoreStats.getPreyDigested(p));
 
         return true;
     }

@@ -23,7 +23,7 @@ public class PreferenceCommand implements CommandExecutor {
      * @param command Command which was executed
      * @param s Alias of the command which was used
      * @param args Passed command arguments
-     * @return true if the command has been executed successfuly, false otherwise
+     * @return true if the command has been executed successfully, false otherwise
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
@@ -44,16 +44,16 @@ public class PreferenceCommand implements CommandExecutor {
                 try {
                     VoreType type = VoreType.valueOf(args[1]);
                     if (preferences.contains(type)) {
-                        p.sendMessage(Settings.msgPrefix + " §cYou already blacklisted that vore type.");
+                        p.sendMessage(Settings.msgPrefix + "§cYou already blacklisted that vore type.");
                         break;
                     }
                     preferences.add(type);
                     file.set("preferences", preferences.toString());
                     PlayerUtil.savePlayerFile(p, file);
-                    p.sendMessage(Settings.msgPrefix + " §aAdded vore type \"" + args[1] + "\" to blacklist.");
+                    p.sendMessage(Settings.msgPrefix + "§aAdded vore type \"" + args[1] + "\" to blacklist.");
                     break;
                 } catch (IllegalArgumentException e) {
-                    p.sendMessage(Settings.msgPrefix + " §c" + args[1] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
+                    p.sendMessage(Settings.msgPrefix + "§c" + args[1] + " is not a valid vore type. Available types are " + Arrays.toString(VoreType.values()));
                 }
             }
 
@@ -64,12 +64,12 @@ public class PreferenceCommand implements CommandExecutor {
                         preferences.remove(type);
                         file.set("preferences", preferences.toString());
                         PlayerUtil.savePlayerFile(p, file);
-                        p.sendMessage(Settings.msgPrefix + " §aRemoved vore type \"" + args[1] + "\" from blacklist.");
+                        p.sendMessage(Settings.msgPrefix + "§aRemoved vore type \"" + args[1] + "\" from blacklist.");
                         break;
                     }
                 }
                 catch (IllegalArgumentException e) {
-                    p.sendMessage(Settings.msgPrefix + " §cYou did not blacklist \"" + args[1] + "\"");
+                    p.sendMessage(Settings.msgPrefix + "§cYou did not blacklist \"" + args[1] + "\"");
                     break;
                 }
             }
@@ -79,7 +79,7 @@ public class PreferenceCommand implements CommandExecutor {
                 for (VoreType preference : preferences) {
                     preferenceMessage.add(preference.toString());
                 }
-                p.sendMessage(Settings.msgPrefix + " §aYour blacklisted vore types are " + preferenceMessage);
+                p.sendMessage(Settings.msgPrefix + "§aYour blacklisted vore types are " + preferenceMessage);
             }
         }
 

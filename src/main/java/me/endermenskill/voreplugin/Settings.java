@@ -11,9 +11,10 @@ public class Settings {
     public static int turduckenLimit = 0;
 
 
-    public static final String msgPrefix = "§8[§b§lVorePlugin§8]§r";
+    public static final String msgPrefix = "§8[§b§lVorePlugin§8]§r ";
     public static final String bellyModelPrefix = "675682";
     public static boolean papi = false;
+    public static boolean cpm = false;
 
     /**
      * Setup function to initialise the settings

@@ -29,7 +29,7 @@ public class BellyInfoGui implements Listener, InputDialogue {
     /**
      * Method to create the GUI
      * @param p Affected Player
-     * @param bellyName String argument(s)
+     * @param bellyName Name of the belly to inspect
      */
     public static void create(Player p, String bellyName) {
         if (bellyName == null || bellyName.isBlank()) {

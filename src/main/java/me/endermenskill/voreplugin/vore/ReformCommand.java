@@ -24,6 +24,7 @@ public class ReformCommand implements CommandExecutor {
         Player p = (Player) commandSender;
 
         if (VoreManager.isDigeted(p)) {
+            p.setGameMode(GameMode.SURVIVAL);
             p.sendTitle(ChatColor.GREEN + "You have been reformed!", "Your items have been returned from your predator's belly.", 0, 60, 20);
             VoreManager.digestedPlayers.remove(p.getUniqueId());
             return true;

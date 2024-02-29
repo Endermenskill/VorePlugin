@@ -30,10 +30,11 @@ public class TestCommand implements CommandExecutor {
         Player p = (Player) sender;
 
         if (!Bukkit.getOperators().contains(p)) {
+            p.sendMessage(Settings.msgPrefix + "Oops! You need to put the CD up your ass!");
             return false;
         }
 
-        p.sendMessage(Settings.msgPrefix + " Testing: GUI stuff");
+        p.sendMessage(Settings.msgPrefix + "Testing: GUI stuff");
 
         ArrayList<Belly> bellies = VoreManager.getBellies(p);
 

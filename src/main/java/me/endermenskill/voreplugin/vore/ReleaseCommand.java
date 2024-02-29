@@ -29,7 +29,7 @@ public class ReleaseCommand implements CommandExecutor{
      */
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + "§cYou cannot run that command from the console.");
             return true;
         }
         if (args.length < 1) {
@@ -45,7 +45,7 @@ public class ReleaseCommand implements CommandExecutor{
             targets = VoreManager.getPrey(p);
         } else {
             if (prey == null) {
-                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\".");
+                p.sendMessage(Settings.msgPrefix + "§cThere is no player online called \"" + args[0] + "\".");
                 return true;
             }
 
@@ -56,14 +56,14 @@ public class ReleaseCommand implements CommandExecutor{
 
         for (Player target : targets) {
             if (target == null) {
-                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\".");
+                p.sendMessage(Settings.msgPrefix + "§cThere is no player online called \"" + args[0] + "\".");
                 return true;
             }
 
             UUID targetID = target.getUniqueId();
 
             if (!VoreManager.voredPlayers.containsKey(targetID)) {
-                p.sendMessage(Settings.msgPrefix + " §c" + target.getDisplayName() + " isn't in your belly. Maybe they escaped in your sleep?");
+                p.sendMessage(Settings.msgPrefix + "§c" + target.getDisplayName() + " isn't in your belly. Maybe they escaped in your sleep?");
                 return true;
             }
 
@@ -81,7 +81,7 @@ public class ReleaseCommand implements CommandExecutor{
                 VoreManager.voredPlayers.put(targetID, VoreManager.voredPlayers.get(p.getUniqueId()));
             }
 
-            p.sendMessage(Settings.msgPrefix + " §a" + target.getDisplayName() + " has been freed from your belly. For now at least.");
+            p.sendMessage(Settings.msgPrefix + "§a" + target.getDisplayName() + " has been freed from your belly. For now at least.");
             target.sendMessage(belly.getReleaseMessage());
         }
         return true;

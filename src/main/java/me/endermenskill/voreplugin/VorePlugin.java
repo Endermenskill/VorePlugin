@@ -47,6 +47,12 @@ public class VorePlugin extends JavaPlugin {
             new PlaceholderHook(this).register();
             Settings.papi = true;
         }
+
+        //Not yet useful, will update when I get to it.
+        if (Bukkit.getPluginManager().getPlugin("CustomizablePlayerModels") != null) {
+            Bukkit.getLogger().info("[VorePlugin] Activating CPM integration...");
+            //Settings.cpm = true;
+        }
     }
 
     /**
@@ -96,7 +102,8 @@ public class VorePlugin extends JavaPlugin {
         getCommand("vore").setExecutor(new VoreCommand());
         getCommand("reform").setExecutor(new ReformCommand());
         getCommand("disposal").setExecutor(new DisposalCommand());
-        getCommand("test").setExecutor(new TestCommand()); //->Super secret testing command
+        getCommand("voreinfo").setExecutor(new PluginInfoCommand());
+        getCommand("test").setExecutor(new TestCommand()); //-> Super secret testing command
     }
 
     /**

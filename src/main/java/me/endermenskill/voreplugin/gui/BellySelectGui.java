@@ -8,6 +8,7 @@ import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -93,16 +94,20 @@ public class BellySelectGui implements Listener {
         String bellyName = meta.getDisplayName().replace("§d§l", "");
 
         Belly belly = VoreManager.getBelly(pred, bellyName);
+        if (belly == null) {
+            pred.sendMessage(Settings.msgPrefix + ChatColor.RED + "No belly set with name \"" + bellyName + "\"");
+        }
 
         Player prey = Bukkit.getPlayer(HitListener.vorePlayers.get(pred.getUniqueId()));
         HitListener.vorePlayers.remove(pred.getUniqueId());
 
         if (prey == null) {
+            pred.sendMessage(Settings.msgPrefix + ChatColor.RED + "Error getting prey: target player is null");
             return;
         }
 
         if (VoreManager.voredPlayers.get(pred.getUniqueId()) != null) {
-            pred.sendMessage(Settings.msgPrefix + " §cYou cannot swallow players while inside someones belly (yet).");
+            pred.sendMessage(Settings.msgPrefix + "§cYou cannot swallow players while inside someones belly (yet).");
             pred.closeInventory();
             return;
         }
@@ -111,18 +116,18 @@ public class BellySelectGui implements Listener {
 
         assert belly != null;
         if (belly.getType() == null) {
-            pred.sendMessage(Settings.msgPrefix + " §cError fetching belly type");
+            pred.sendMessage(Settings.msgPrefix + "§cError fetching belly type");
             return;
         }
 
         if (preyPreferences.contains(belly.getType())) {
-            pred.sendMessage(Settings.msgPrefix + " §c" + prey.getDisplayName() + " has blacklisted " + belly.getType() + " type bellies.");
+            pred.sendMessage(Settings.msgPrefix + "§c" + prey.getDisplayName() + " has blacklisted " + belly.getType() + " type bellies.");
             return;
         }
 
         VoreManager.voredPlayers.put(prey.getUniqueId(),belly);
         if (!prey.teleport(belly.getLocation())) {
-            pred.sendMessage(Settings.msgPrefix + " §cError teleporting " + prey.getDisplayName() + " to belly location.");
+            pred.sendMessage(Settings.msgPrefix + "§cError teleporting " + prey.getDisplayName() + " to belly location.");
             VoreManager.voredPlayers.remove(prey.getUniqueId());
             prey.removePotionEffect(PotionEffectType.SLOW);
             return;

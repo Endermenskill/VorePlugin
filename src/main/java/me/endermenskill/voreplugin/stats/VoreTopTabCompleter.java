@@ -28,7 +28,7 @@ public class VoreTopTabCompleter implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
         List<String> list = new ArrayList<>();
 
-        for (StatTypes type : StatTypes.values()) {
+        for (StatType type : StatType.values()) {
             list.add(type.name());
         }
 

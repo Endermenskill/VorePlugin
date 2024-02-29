@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Class to handle chat related listeners
+ * Class to handle chat related listeners. Currently unused because stupid.
  */
 public class ChatListener implements Listener {
 

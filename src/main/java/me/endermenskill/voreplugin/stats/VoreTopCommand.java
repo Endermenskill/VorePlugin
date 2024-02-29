@@ -30,7 +30,7 @@ public class VoreTopCommand implements CommandExecutor {
             return false;
         }
 
-        StatTypes type = StatTypes.valueOf(args[0]);
+        StatType type = StatType.valueOf(args[0]);
 
         HashMap<Player, Integer> data;
         switch (type) {
@@ -55,11 +55,11 @@ public class VoreTopCommand implements CommandExecutor {
             }
         });
 
-        p.sendMessage(Settings.msgPrefix + " §6----- Leaderboard for §r" + args[0] + "§6 -----");
+        p.sendMessage(Settings.msgPrefix + "§6----- Leaderboard for §r" + args[0] + "§6 -----");
         for (int i = -1; i >= -10; i--) {
             Player player = statData.get(i).getKey();
             Integer stat = statData.get(i).getValue();
-            p.sendMessage(Settings.msgPrefix + " §e" + player.getDisplayName() + "§e: §2" + stat);
+            p.sendMessage(Settings.msgPrefix + "§e" + player.getDisplayName() + "§e: §2" + stat);
         }
         return true;
     }

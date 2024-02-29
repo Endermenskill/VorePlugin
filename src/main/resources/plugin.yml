@@ -4,7 +4,7 @@ main: me.endermenskill.voreplugin.VorePlugin
 api-version: 1.20
 authors: [Endermenskill]
 softdepend: [PlaceholderAPI]
-description: A plugin to bring the joys of vor eto the world of Minecraft.
+description: A plugin to bring the joys of vore to the world of Minecraft.
 commands:
   setbelly:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <name> <type>"
@@ -33,9 +33,9 @@ commands:
   vore:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <branch> <arguments>"
     description: Command to set bellies, set and vore types vore ranks, set and view preference settings set and view stats and leaderboards.
-  version:
+  voreinfo:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command>"
-    description: Returns the plugin's version
+    description: Displays useful plugin information
   reform:
     usage: "§8[§b§lVorePlugin§8] §7Usage: /<command> <player>"
     description: Reform yourself or a player you digested

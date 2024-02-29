@@ -1,5 +1,7 @@
 package me.endermenskill.voreplugin.belly;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.Bukkit;
@@ -226,7 +228,12 @@ public class Belly {
      * @return The belly's swallow message
      */
     public String getSwallowMessage() {
-        return this.data.getString("swallowMessage");
+        String message = this.data.getString("swallowMessage");
+        assert message != null;
+        if (Settings.papi) {
+            return PlaceholderAPI.setPlaceholders(this.getOwner(), message);
+        }
+        return message;
     }
 
     /**
@@ -234,7 +241,12 @@ public class Belly {
      * @return The belly's digest message
      */
     public String getDigestInitMessage() {
-        return this.data.getString("digestInitMessage");
+        String message = this.data.getString("digestInitMessage");
+        assert message != null;
+        if (Settings.papi) {
+            return PlaceholderAPI.setPlaceholders(this.getOwner(), message);
+        }
+        return message;
     }
 
     /**
@@ -242,7 +254,12 @@ public class Belly {
      * @return The belly's digest message
      */
     public String getDigestMessage() {
-        return this.data.getString("digestMessage");
+        String message = this.data.getString("digestMessage");
+        assert message != null;
+        if (Settings.papi) {
+            return PlaceholderAPI.setPlaceholders(this.getOwner(), message);
+        }
+        return message;
     }
 
     /**
@@ -250,7 +267,12 @@ public class Belly {
      * @return The belly's release message
      */
     public String getReleaseMessage() {
-        return this.data.getString("releaseMessage");
+        String message = this.data.getString("releaseMessage");
+        assert message != null;
+        if (Settings.papi) {
+            return PlaceholderAPI.setPlaceholders(this.getOwner(), message);
+        }
+        return message;
     }
 
     /**

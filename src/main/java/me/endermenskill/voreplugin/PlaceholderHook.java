@@ -3,6 +3,7 @@ package me.endermenskill.voreplugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
+import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +51,12 @@ class PlaceholderHook extends PlaceholderExpansion {
 
         placeholders.add("rank");
         placeholders.add("pred");
-        placeholders.add("prey");
+        placeholders.add("preyCount");
+        placeholders.add("preyList");
+        placeholders.add("timesEaten");
+        placeholders.add("timesDigested");
+        placeholders.add("preyEaten");
+        placeholders.add("preyDigested");
 
         return placeholders;
     }
@@ -64,7 +70,12 @@ class PlaceholderHook extends PlaceholderExpansion {
         return switch (params) {
             case "rank" -> rankRequest(player);
             case "pred" -> predRequest(player);
-            case "prey" -> preyRequest(player);
+            case "preyCount" -> preyCountRequest(player);
+            case "preyList" -> preyListRequest(player);
+            case "timesEaten" -> "" + VoreStats.getTimesEaten(player);
+            case "timesDigested" -> "" + VoreStats.getTimesDigested(player);
+            case "preyEaten" -> "" + VoreStats.getPreyEaten(player);
+            case "preyDigested" -> "" + VoreStats.getPreyDigested(player);
             default -> null;
         };
     }
@@ -85,11 +96,19 @@ class PlaceholderHook extends PlaceholderExpansion {
         return "nobody";
     }
 
-    private String preyRequest(Player player) {
+    private String preyCountRequest(Player player) {
         ArrayList<Player> prey = VoreManager.getPrey(player);
-        if (!prey.isEmpty()) {
-            return prey.toString();
+        return "" + prey.size();
+    }
+
+    private String preyListRequest(Player player) {
+        ArrayList<Player> prey = VoreManager.getPrey(player);
+        ArrayList<String> preyNames = new ArrayList<>();
+
+        for (Player p : prey) {
+            preyNames.add(p.getDisplayName());
         }
-        return "nobody";
+
+        return preyNames.toString().replaceAll("\\[", "").replaceAll("]", "");
     }
 }

@@ -1,6 +1,6 @@
 package me.endermenskill.voreplugin.player;
 
-import me.endermenskill.voreplugin.stats.StatTypes;
+import me.endermenskill.voreplugin.stats.StatType;
 import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -83,7 +83,7 @@ public class VoreTabCompleter implements TabCompleter {
     private List<String> top() {
         List<String> list = new ArrayList<>();
 
-        for (StatTypes type : StatTypes.values()) {
+        for (StatType type : StatType.values()) {
             list.add(type.name());
         }
 

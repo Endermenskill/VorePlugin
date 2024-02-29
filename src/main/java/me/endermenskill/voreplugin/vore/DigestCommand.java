@@ -32,7 +32,7 @@ public class DigestCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Settings.msgPrefix + " §cYou cannot run that command from the console.");
+            sender.sendMessage(Settings.msgPrefix + "§cYou cannot run that command from the console.");
             return true;
         }
 
@@ -52,17 +52,17 @@ public class DigestCommand implements CommandExecutor {
 
         for (Player target : targets) {
             if (target == null) {
-                p.sendMessage(Settings.msgPrefix + " §cThere is no player online called \"" + args[0] + "\".");
+                p.sendMessage(Settings.msgPrefix + "§cThere is no player online called \"" + args[0] + "\".");
                 return true;
             }
 
             if (PlayerUtil.getPlayerRank(target) == PlayerRank.PREDATOR) {
-                p.sendMessage(Settings.msgPrefix + " §cYou cannot digest predator " + target.getDisplayName() + ".");
+                p.sendMessage(Settings.msgPrefix + "§cYou cannot digest predator " + target.getDisplayName() + ".");
                 return true;
             }
 
             if (target.isInvulnerable()) {
-                p.sendMessage(Settings.msgPrefix + " §c" + target.getDisplayName() + " is invulnerable. Are they in creative or god mode?");
+                p.sendMessage(Settings.msgPrefix + "§c" + target.getDisplayName() + " is invulnerable. Are they in creative or god mode?");
                 return true;
             }
 
@@ -75,7 +75,7 @@ public class DigestCommand implements CommandExecutor {
             p.addPotionEffect(saturate);
 
             p.sendMessage(Settings.msgPrefix + belly.getDigestInitMessage());
-            p.sendMessage(Settings.msgPrefix + " §cDigesting " + target.getDisplayName());
+            p.sendMessage(Settings.msgPrefix + "§cDigesting " + target.getDisplayName());
             target.sendMessage(belly.getDigestInitMessage());
 
             VoreStats.incrementPreyDigested(p);

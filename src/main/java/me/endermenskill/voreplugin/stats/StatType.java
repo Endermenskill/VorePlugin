@@ -3,7 +3,7 @@ package me.endermenskill.voreplugin.stats;
 /**
  * Enumerator containing the tracked vore stats
  */
-public enum StatTypes {
+public enum StatType {
     timesEaten,
     timesDigested,
     preyEaten,

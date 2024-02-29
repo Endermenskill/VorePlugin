@@ -30,7 +30,7 @@ public class VoreStats {
             stat = playerStats.getInt("timesEaten");
         } catch (Exception e){
             Bukkit.getLogger().warning("Error getting stat \"timesEaten\" for player " + p.getName() + ", UUID " + p.getUniqueId());
-            setStat(p, StatTypes.timesEaten, 0);
+            setStat(p, StatType.timesEaten, 0);
             e.printStackTrace();
         }
         return stat;
@@ -50,7 +50,7 @@ public class VoreStats {
             stat = playerStats.getInt("timesDigested");
         } catch (Exception e){
             Bukkit.getLogger().warning("Error getting stat \"timesDigested\" for player " + p.getName() + ", UUID " + p.getUniqueId());
-            setStat(p, StatTypes.timesDigested, 0);
+            setStat(p, StatType.timesDigested, 0);
             e.printStackTrace();
         }
         return stat;
@@ -70,7 +70,7 @@ public class VoreStats {
             stat = playerStats.getInt("preyEaten");
         } catch (Exception e){
             Bukkit.getLogger().warning("Error getting stat \"preyEaten\" for player " + p.getName() + ", UUID " + p.getUniqueId());
-            setStat(p, StatTypes.preyEaten, 0);
+            setStat(p, StatType.preyEaten, 0);
             e.printStackTrace();
         }
         return stat;
@@ -90,7 +90,7 @@ public class VoreStats {
             stat = playerStats.getInt("preyDigested");
         } catch (Exception e){
             Bukkit.getLogger().warning("Error getting stat \"preyDigested\" for player " + p.getName() + ", UUID " + p.getUniqueId());
-            setStat(p, StatTypes.preyDigested, 0);
+            setStat(p, StatType.preyDigested, 0);
             e.printStackTrace();
         }
         return stat;
@@ -150,7 +150,7 @@ public class VoreStats {
      * @param stat Stat to modify. Can be "timesEaten", "timesDigested", "preyEaten", "preyDigested"
      * @param amount The amount to set the stat to
      */
-    static void setStat(Player p, StatTypes stat, int amount) {
+    static void setStat(Player p, StatType stat, int amount) {
         FileConfiguration playerFile = PlayerUtil.getPlayerFile(p);
         ConfigurationSection playerStats = playerFile.getConfigurationSection("stats");
         if (playerStats == null) {
