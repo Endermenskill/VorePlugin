@@ -32,7 +32,7 @@ public class SetBellyTabCompleter implements TabCompleter {
          if (args.length == 2) {
              for (VoreType type : VoreType.values()) {
                  if (type.toString().startsWith(args[1])) {
-                     list.add(type.toString());
+                     list.add(type.toString().toLowerCase());
                  }
              }
          }

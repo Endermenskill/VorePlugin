@@ -39,14 +39,14 @@ public class PreferenceTabCompleter implements TabCompleter {
             if (args[0].equals("add")) {
                 for (VoreType type : VoreType.values()) {
                     if (!preferences.contains(type)) {
-                        list.add(type.toString());
+                        list.add(type.toString().toLowerCase());
                     }
                 }
             }
             else if (args[0].equals("remove")) {
                 for (VoreType type : preferences) {
                     if (type.toString().startsWith(args[1])) {
-                        list.add(type.toString());
+                        list.add(type.toString().toLowerCase());
                     }
                 }
             }

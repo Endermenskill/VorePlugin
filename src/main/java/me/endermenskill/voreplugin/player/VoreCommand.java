@@ -249,7 +249,7 @@ public class VoreCommand implements CommandExecutor {
             case "add": {
 
                 try {
-                    VoreType type = VoreType.valueOf(args[2]);
+                    VoreType type = VoreType.valueOf(args[2].toUpperCase());
 
                     if (preferences.contains(type)) {
                         p.sendMessage(Settings.msgPrefix + "§cYou already blacklisted that vore type.");

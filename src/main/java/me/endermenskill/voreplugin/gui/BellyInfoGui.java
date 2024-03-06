@@ -12,16 +12,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerEditBookEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class BellyInfoGui implements Listener, InputDialogue {
+import java.util.Arrays;
 
-    final String bookTitle = "edit belly setting;";
+public class BellyInfoGui implements Listener {
+
+    final String bookTitle = "edit belly setting§;";
 
     /**
      * Method to create the GUI
@@ -174,43 +174,28 @@ public class BellyInfoGui implements Listener, InputDialogue {
         String dataType = meta.getDisplayName().replaceAll("§d", "").replaceAll(":", "");
 
         String title = bookTitle;
-        title += bellyName;
+        title += bellyName + "§;";
         title += dataType;
 
         String msg = "Enter new ";
         msg += dataType;
         msg += " for the belly:";
 
-        createDialogue((Player) e.getWhoClicked(), title, msg);
+        PlayerInput.sendRequest((Player) e.getWhoClicked(), title, msg);
     }
 
     @EventHandler
-    public void onBookClose(PlayerEditBookEvent e) {
-        Player p = e.getPlayer();
-        BookMeta meta = e.getNewBookMeta();
-        String title = meta.getTitle();
-        assert title != null;
-
-        if (!title.startsWith(bookTitle)) {
+    public void onInputSend(PlayerChatInputEvent e) {
+        if (!e.getContext().startsWith(bookTitle)) {
             return;
         }
 
-        e.setCancelled(true);
-        StringBuilder output = new StringBuilder();
-        for (String page: meta.getPages()) {
-            output.append(page);
-        }
+        Player p = e.getPlayer();
+        String input = e.getMsg();
 
-        String[] splitString = output.toString().split(":");
-        StringBuilder rawResult = new StringBuilder();
-        for (int i = 1; i < splitString.length; i++) {
-            rawResult.append(splitString[i]);
-        }
-        String result = rawResult.toString();
-
-        String[] splitTitle = title.split(";");
-        String bellyName = splitTitle[1];
-        String dataType = splitTitle[2];
+        String[] splitContext = e.getContext().split(";");
+        String bellyName = splitContext[1];
+        String dataType = splitContext[2];
         Belly belly = VoreManager.getBelly(p, bellyName);
 
         if (belly == null) {
@@ -220,34 +205,34 @@ public class BellyInfoGui implements Listener, InputDialogue {
 
         switch(dataType) {
             case "name": {
-                belly.setName(result);
+                belly.setName(input);
             }
             case "type": {
                 try {
-                    VoreType type = VoreType.valueOf(result.toUpperCase());
+                    VoreType type = VoreType.valueOf(input.toUpperCase());
                     belly.setType(type);
                 } catch (IllegalArgumentException ex) {
-                    p.sendMessage(ChatColor.RED + "Invalid vore type");
+                    p.sendMessage(ChatColor.RED + "Invalid vore type! Valid types are: " + Arrays.toString(VoreType.values()));
                 }
             }
             case "swallowMessage": {
-                belly.setSwallowMessage(result);
+                belly.setSwallowMessage(input);
             }
             case "digestInitMessage": {
-                belly.setDigestInitMessage(result);
+                belly.setDigestInitMessage(input);
             }
             case "digestMessage": {
-                belly.setDigestMessage(result);
+                belly.setDigestMessage(input);
             }
             case "releaseMessage": {
-                belly.setReleaseMessage(result);
+                belly.setReleaseMessage(input);
             }
             case "bellyEffect": {
                 p.sendMessage(ChatColor.YELLOW + "This feature is currently disabled. Maybe changing the ambient effect will be a thing for future versions.");
             }
             case "acidStrength": {
                 try {
-                    int strength = Integer.parseInt(result);
+                    int strength = Integer.parseInt(input);
                     if (strength > 3){
                         strength = 3;
                     }
@@ -256,7 +241,7 @@ public class BellyInfoGui implements Listener, InputDialogue {
                     }
                     belly.setAcidStrength(strength);
                 } catch (NumberFormatException ex) {
-                    p.sendMessage(ChatColor.RED + "Error formatting Integer from String");
+                    p.sendMessage(ChatColor.RED + "Error formatting Integer from String. Please enter a valid number.");
                 }
             }
         }

@@ -72,7 +72,7 @@ public class SetBellyCommand implements CommandExecutor {
 
         if (args.length >= 2) {
             try {
-                VoreType type = VoreType.valueOf(args[1]);
+                VoreType type = VoreType.valueOf(args[1].toUpperCase());
                 belly.setType(type);
             } catch (Exception e) {
                 p.sendMessage(Settings.msgPrefix + "§cInvalid vore type" + args[1] + "§rReplaced missing optional argument with default value of " + VoreType.ORAL + ".");

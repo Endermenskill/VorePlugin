@@ -52,7 +52,7 @@ public class BellyTabCompleter implements TabCompleter {
                     case "vore_type" -> {
                         for (VoreType type : VoreType.values()) {
                             if (type.toString().startsWith(args[2])) {
-                                list.add(type.toString());
+                                list.add(type.toString().toLowerCase());
                             }
                         }
                     }

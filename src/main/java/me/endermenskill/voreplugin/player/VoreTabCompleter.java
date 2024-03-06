@@ -5,6 +5,7 @@ import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class VoreTabCompleter implements TabCompleter {
             }
 
             case "preference" -> {
-                return preference(args);
+                return preference(args, (Player) sender);
             }
 
             default -> {
@@ -100,7 +101,7 @@ public class VoreTabCompleter implements TabCompleter {
 
         if (args.length == 3) {
             for (VoreType type : VoreType.values()) {
-                list.add(type.toString());
+                list.add(type.toString().toLowerCase());
             }
         }
 
@@ -130,7 +131,7 @@ public class VoreTabCompleter implements TabCompleter {
      * @param args Command arguments
      * @return List of possible values for the current argument
      */
-    private List<String> preference(String[] args) {
+    private List<String> preference(String[] args, Player p) {
         List<String> list = new ArrayList<>();
 
         if (args.length == 2){
@@ -139,9 +140,16 @@ public class VoreTabCompleter implements TabCompleter {
             list.add("list");
         }
 
-        if (args.length == 3 && !args[1].equals("list")) {
+        if (args.length == 3 && !args[2].equals("list")) {
+            ArrayList<VoreType> preferences = PlayerUtil.getPreferences(p);
+
             for (VoreType type : VoreType.values()) {
-                list.add(type.toString());
+                if (args[2].equals("add") && !preferences.contains(type)) {
+                    list.add(type.toString().toLowerCase());
+                }
+                else if (args[2].equals("remove") && preferences.contains(type)) {
+                    list.add(type.toString().toLowerCase());
+                }
             }
         }
 

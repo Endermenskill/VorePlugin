@@ -171,7 +171,7 @@ public class BellyCommand implements CommandExecutor {
      */
     private boolean setType(Player p, Belly belly, String type) {
         try {
-            VoreType voreType = VoreType.valueOf(type);
+            VoreType voreType = VoreType.valueOf(type.toUpperCase());
             belly.setType(voreType);
         }
         catch (IllegalArgumentException e) {

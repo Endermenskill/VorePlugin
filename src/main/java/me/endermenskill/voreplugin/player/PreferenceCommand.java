@@ -42,7 +42,7 @@ public class PreferenceCommand implements CommandExecutor {
         switch (args[0]) {
             case "add": {
                 try {
-                    VoreType type = VoreType.valueOf(args[1]);
+                    VoreType type = VoreType.valueOf(args[1].toUpperCase());
                     if (preferences.contains(type)) {
                         p.sendMessage(Settings.msgPrefix + "§cYou already blacklisted that vore type.");
                         break;
@@ -59,7 +59,7 @@ public class PreferenceCommand implements CommandExecutor {
 
             case "remove": {
                 try {
-                    VoreType type = VoreType.valueOf(args[1]);
+                    VoreType type = VoreType.valueOf(args[1].toUpperCase());
                     if (preferences.contains(type)) {
                         preferences.remove(type);
                         file.set("preferences", preferences.toString());
@@ -77,7 +77,7 @@ public class PreferenceCommand implements CommandExecutor {
             default: {
                 ArrayList<String> preferenceMessage= new ArrayList<>();
                 for (VoreType preference : preferences) {
-                    preferenceMessage.add(preference.toString());
+                    preferenceMessage.add(preference.toString().toLowerCase());
                 }
                 p.sendMessage(Settings.msgPrefix + "§aYour blacklisted vore types are " + preferenceMessage);
             }

@@ -1,10 +1,8 @@
 package me.endermenskill.voreplugin.gui;
 
-import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.VorePlugin;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.vore.VoreManager;
-import me.endermenskill.voreplugin.vore.VoreType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -54,24 +52,12 @@ public class GUIUtil {
         PersistentDataContainer container = meta.getPersistentDataContainer();
         NamespacedKey key = NamespacedKey.fromString("CustomModelData");
         assert key != null;
-        container.set(key, PersistentDataType.STRING, "voreType.ORAL");
+        container.set(key, PersistentDataType.STRING, "voreType." + belly.getType().name());
 
-        //meta.setCustomModelData(getVoreTypeModelData(belly.getType()));
         meta.setLore(lore);
         item.setItemMeta(meta);
 
         return item;
-    }
-
-    /**
-     * Function to get the customModelData for a specific vore type
-     * @param voreType vore type to get the data of
-     * @return Integer of the custom model data
-     */
-    public static Integer getVoreTypeModelData(VoreType voreType) {
-        String model = Settings.bellyModelPrefix;
-        model += voreType.getIndex();
-        return Integer.parseInt(model);
     }
 
     /**
