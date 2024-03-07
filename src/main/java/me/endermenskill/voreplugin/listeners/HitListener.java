@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class HitListener implements Listener {
 
-    public static HashMap<UUID, UUID> vorePlayers = new HashMap<>();
+    public static final HashMap<UUID, UUID> vorePlayers = new HashMap<>();
 
     /**
      * Method to listen for players attempting to swallow another player

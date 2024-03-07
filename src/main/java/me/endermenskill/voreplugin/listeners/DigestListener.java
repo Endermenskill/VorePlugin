@@ -1,8 +1,7 @@
 package me.endermenskill.voreplugin.listeners;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
+import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.stats.VoreStats;
 import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.*;
@@ -61,5 +60,9 @@ public class DigestListener implements Listener {
         VoreStats.incrementPreyDigested(pred);
         VoreStats.incrementTimesDigested(prey);
         VoreManager.digestedPlayers.put(prey.getUniqueId(), belly);
+
+        if (PlayerUtil.getAutoReform(prey)) {
+            prey.performCommand("reform");
+        }
     }
 }

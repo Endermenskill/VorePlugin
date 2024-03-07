@@ -1,7 +1,8 @@
-package me.endermenskill.voreplugin.vore;
+package me.endermenskill.voreplugin.vore.release;
 
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.belly.Belly;
+import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

@@ -1,10 +1,11 @@
-package me.endermenskill.voreplugin.vore;
+package me.endermenskill.voreplugin.vore.digestion;
 
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.belly.Belly;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.stats.VoreStats;
+import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

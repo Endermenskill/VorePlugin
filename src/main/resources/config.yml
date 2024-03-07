@@ -7,3 +7,5 @@
 bellyMax: 64
 
 turduckenLimit: 10
+
+forceAutoReform: false

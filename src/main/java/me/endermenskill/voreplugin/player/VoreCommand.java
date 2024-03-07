@@ -21,6 +21,8 @@ import java.util.*;
  * Class to handle the /vore command
  */
 public class VoreCommand implements CommandExecutor {
+    private final String[] commands = {"stats", "top", "setbelly", "rank", "preference"};
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 
@@ -30,6 +32,14 @@ public class VoreCommand implements CommandExecutor {
         }
 
         Player p = (Player) sender;
+
+        StringBuilder newCommand = new StringBuilder();
+        for (String arg: args) {
+            newCommand.append(" ").append(arg);
+        }
+
+        p.performCommand(newCommand.toString());
+
 
         switch (args[0]) {
 

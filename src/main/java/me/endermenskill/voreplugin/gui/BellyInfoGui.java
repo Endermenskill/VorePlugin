@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class BellyInfoGui implements Listener {
 
-    final String bookTitle = "edit belly setting§;";
+    final String contextBase = "edit belly setting§;";
 
     /**
      * Method to create the GUI
@@ -173,20 +173,21 @@ public class BellyInfoGui implements Listener {
 
         String dataType = meta.getDisplayName().replaceAll("§d", "").replaceAll(":", "");
 
-        String title = bookTitle;
-        title += bellyName + "§;";
-        title += dataType;
+        String context = contextBase;
+        context += bellyName + "§;";
+        context += dataType;
 
         String msg = "Enter new ";
         msg += dataType;
         msg += " for the belly:";
 
-        PlayerInput.sendRequest((Player) e.getWhoClicked(), title, msg);
+        e.getView().close();
+        PlayerInput.sendRequest((Player) e.getWhoClicked(), context, msg);
     }
 
     @EventHandler
     public void onInputSend(PlayerChatInputEvent e) {
-        if (!e.getContext().startsWith(bookTitle)) {
+        if (!e.getContext().startsWith(contextBase)) {
             return;
         }
 
@@ -245,5 +246,7 @@ public class BellyInfoGui implements Listener {
                 }
             }
         }
+
+        create(p, bellyName);
     }
 }

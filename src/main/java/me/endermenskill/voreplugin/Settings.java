@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Settings {
     public static int maxBellies;
     public static int turduckenLimit = 0;
+    public static boolean forceAutoReform = false;
 
 
     public static final String msgPrefix = "§8[§b§lVorePlugin§8]§r ";
-    public static final String bellyModelPrefix = "675682";
     public static boolean papi = false;
     public static boolean cpm = false;
 
@@ -34,6 +34,9 @@ public class Settings {
         turduckenLimit = config.getInt("turduckenLimit");
         if (turduckenLimit > 10) {
             Bukkit.getLogger().warning("Config \"turduckenLimit\" exceeds hard cap of 10. Replacing custom amount with maximum allowed value...");
+            turduckenLimit = 10;
         }
+
+        forceAutoReform = config.getBoolean("forceAutoReform");
     }
 }

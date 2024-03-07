@@ -35,17 +35,13 @@ public class VoreTabCompleter implements TabCompleter {
         if (args.length == 1) {
             values.add("stats");
             values.add("top");
-            values.add("setBelly");
+            values.add("setbelly");
             values.add("rank");
             values.add("preference");
             return values;
         }
 
         switch (args[0]) {
-
-            case "stats" -> {
-                return stats();
-            }
 
             case "top" -> {
                 return top();
@@ -67,14 +63,6 @@ public class VoreTabCompleter implements TabCompleter {
                 return null;
             }
         }
-    }
-
-    /**
-     * Private function to handle the stats branch tabCompletion
-     * @return List of possible values for the current arguments
-     */
-    private List<String> stats() {
-        return null;
     }
 
     /**

@@ -1,5 +1,6 @@
-package me.endermenskill.voreplugin.vore;
+package me.endermenskill.voreplugin.vore.release;
 
+import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

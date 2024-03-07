@@ -1,7 +1,8 @@
-package me.endermenskill.voreplugin.vore;
+package me.endermenskill.voreplugin.vore.reformation;
 
 import me.endermenskill.voreplugin.player.PlayerRank;
 import me.endermenskill.voreplugin.player.PlayerUtil;
+import me.endermenskill.voreplugin.vore.VoreManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;

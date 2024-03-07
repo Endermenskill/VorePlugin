@@ -10,9 +10,9 @@ import java.util.UUID;
 
 public class PlayerChatInputEvent extends Event {
     private final HandlerList handlerList = new HandlerList();
-    private UUID player = null;
-    private String msg = null;
-    private String context = null;
+    private UUID player;
+    private String msg;
+    private String context;
 
     /**
      * Class constructor for the event

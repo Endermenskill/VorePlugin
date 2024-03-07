@@ -17,7 +17,7 @@ import java.util.UUID;
  */
 public class PlayerInput implements Listener {
 
-    static HashMap<UUID, String> awaitingInput = new HashMap<>();
+    static final HashMap<UUID, String> awaitingInput = new HashMap<>();
 
     /**
      * Method to send the message that chat input is being awaited

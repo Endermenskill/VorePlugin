@@ -19,8 +19,8 @@ import java.util.UUID;
  * Class managing vore-related actions
  */
 public class VoreManager {
-    public static HashMap<UUID, Belly> voredPlayers = new HashMap<>();
-    public static HashMap<UUID, Belly> digestedPlayers = new HashMap<>();
+    public static final HashMap<UUID, Belly> voredPlayers = new HashMap<>();
+    public static final HashMap<UUID, Belly> digestedPlayers = new HashMap<>();
 
 
     /**
@@ -123,11 +123,7 @@ public class VoreManager {
             return false;
         }
 
-        if (getPredator(p) != null) {
-            return false;
-        }
-
-        return true;
+        return getPredator(p) == null;
     }
 
     /**
@@ -141,11 +137,7 @@ public class VoreManager {
             return false;
         }
 
-        if (!getPrey(p).isEmpty()) {
-            return false;
-        }
-
-        return true;
+        return getPrey(p).isEmpty();
     }
 
     /**

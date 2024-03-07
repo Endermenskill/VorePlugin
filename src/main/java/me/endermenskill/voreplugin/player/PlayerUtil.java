@@ -106,31 +106,6 @@ public class PlayerUtil {
     }
 
     /**
-     * Get a belly's configuration section key via it's owner and name.
-     * @param p Player that owns the belly
-     * @param bellyName Name of the belly
-     * @return Key of the belly in the player's config file. null if no belly matching the name is found.
-     */
-    public static String getBellyConfigurationSection(Player p, String bellyName) {
-        FileConfiguration playerFile = getPlayerFile(p);
-        ConfigurationSection bellies = playerFile.getConfigurationSection("bellies");
-
-        assert bellies != null;
-        for (String key : bellies.getKeys(false)) {
-            String bellySection = bellies.getString(key + ".name");
-            try {
-                assert bellySection != null;
-                if (bellySection.equals(bellyName)) {
-                    return key;
-                }
-            }
-            catch (NullPointerException ignored) {}
-        }
-
-        return null;
-    }
-
-    /**
      * Get an empty configurationSection for a belly
      * @param p Player whose file to scan
      * @return ID of the Configuration section if one was found, null otherwise.
@@ -177,5 +152,15 @@ public class PlayerUtil {
         }
 
         return preferences;
+    }
+
+    /**
+     * Get a player's autoReform status
+     * @param p player to check
+     * @return Player's autoReform status. Will always return true if Settings.forceAutoReform is true.
+     */
+    public static boolean getAutoReform(Player p) {
+        FileConfiguration playerFile = getPlayerFile(p);
+        return Settings.forceAutoReform || playerFile.getBoolean("autoReform");
     }
 }

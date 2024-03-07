@@ -8,6 +8,14 @@ import me.endermenskill.voreplugin.stats.VoreStatsCommand;
 import me.endermenskill.voreplugin.stats.VoreTopCommand;
 import me.endermenskill.voreplugin.stats.VoreTopTabCompleter;
 import me.endermenskill.voreplugin.vore.*;
+import me.endermenskill.voreplugin.vore.digestion.DigestCommand;
+import me.endermenskill.voreplugin.vore.digestion.DigestTabCompleter;
+import me.endermenskill.voreplugin.vore.digestion.DisposalCommand;
+import me.endermenskill.voreplugin.vore.digestion.DisposalTabCompleter;
+import me.endermenskill.voreplugin.vore.reformation.ReformCommand;
+import me.endermenskill.voreplugin.vore.reformation.ReformTabCompleter;
+import me.endermenskill.voreplugin.vore.release.ReleaseCommand;
+import me.endermenskill.voreplugin.vore.release.ReleaseTabCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -35,6 +43,9 @@ public class VorePlugin extends JavaPlugin {
         getLogger().info("[VorePlugin] registering tab completers...");
         registerTabCompleters();
 
+        getLogger().info("[VorePlugin] registering events...");
+        registerEvents();
+
         saveDefaultConfig();
         for (Player p : Bukkit.getOnlinePlayers()) {
             PlayerUtil.getPlayerFile(p);
@@ -51,7 +62,7 @@ public class VorePlugin extends JavaPlugin {
         //Not yet useful, will update when I get to it.
         if (Bukkit.getPluginManager().getPlugin("CustomizablePlayerModels") != null) {
             Bukkit.getLogger().info("[VorePlugin] Activating CPM integration...");
-            //Settings.cpm = true;
+            Settings.cpm = true;
         }
     }
 
@@ -119,5 +130,15 @@ public class VorePlugin extends JavaPlugin {
         getCommand("voretop").setTabCompleter(new VoreTopTabCompleter());
         getCommand("vore").setTabCompleter(new VoreTabCompleter());
         getCommand("reform").setTabCompleter(new ReformTabCompleter());
+        getCommand("disposal").setTabCompleter(new DisposalTabCompleter());
+    }
+
+    private void registerEvents() {
+        Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.getPluginManager().callEvent(new ServerTickEvent());
+            }
+        },0, 0);
     }
 }

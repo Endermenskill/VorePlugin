@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.endermenskill.voreplugin.Settings;
 import me.endermenskill.voreplugin.player.PlayerUtil;
 import me.endermenskill.voreplugin.vore.VoreType;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -87,7 +86,7 @@ public class Belly {
     public void setName(String name) {
         this.data.set("name", name);
 
-        this.saveBelly();;
+        this.saveBelly();
     }
 
     /**
